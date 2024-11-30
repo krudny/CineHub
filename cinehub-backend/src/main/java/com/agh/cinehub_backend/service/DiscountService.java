@@ -2,17 +2,15 @@ package com.agh.cinehub_backend.service;
 
 import com.agh.cinehub_backend.model.Discount;
 import com.agh.cinehub_backend.repository.DiscountRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class DiscountService {
     private final DiscountRepository discountRepository;
-
-    public DiscountService(DiscountRepository discountRepository) {
-        this.discountRepository = discountRepository;
-    }
 
     public List<Discount> getAllDiscounts() {
         return discountRepository.findAll();
