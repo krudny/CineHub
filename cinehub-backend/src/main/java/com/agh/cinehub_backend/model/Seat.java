@@ -15,7 +15,7 @@ public class Seat {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    private Integer row;
+    private Integer row_;
 
-    private Integer column;
+    private Integer column_;
 }

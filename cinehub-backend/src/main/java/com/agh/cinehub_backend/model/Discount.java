@@ -3,8 +3,6 @@ package com.agh.cinehub_backend.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 
 @Entity
 @Data
@@ -17,7 +15,7 @@ public class Discount {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(nullable = false, precision = 3, scale = 2)
-    private BigDecimal value;
+    @Column(nullable = false)
+    private float value;
 }
 
