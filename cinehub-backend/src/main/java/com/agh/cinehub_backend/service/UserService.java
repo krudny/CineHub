@@ -3,6 +3,7 @@ package com.agh.cinehub_backend.service;
 import com.agh.cinehub_backend.DTO.RegisterRequest;
 import com.agh.cinehub_backend.model.Role;
 import com.agh.cinehub_backend.model.User;
+import com.agh.cinehub_backend.repository.RoleRepository;
 import com.agh.cinehub_backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,16 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final RoleService roleService;
+    private final RoleRepository roleRepository;
 
-    public ResponseEntity<String> registerUser(RegisterRequest request) {
-        Optional<Role> role = roleService.getRoleByName(request.getRole());
+    public void registerUser(RegisterRequest request) {
+        Optional<Role> role = roleRepository.findByName(request.getRole());
 
-        if(role.isEmpty()){
-            return ResponseEntity.badRequest().body("Role " + request.getRole() + " doesn't exists.");
+        if (role.isEmpty()) {
+            throw new IllegalArgumentException("Role " + request.getRole() + " doesn't exist.");
         }
 
-        User new_user = User.builder()
+        User newUser = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
@@ -31,11 +32,10 @@ public class UserService {
                 .role(role.get())
                 .build();
 
-        if (userRepository.findByEmail(new_user.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body("User with email " + new_user.getEmail() + " already exists.");
+        if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("User with email " + newUser.getEmail() + " already exists.");
         }
 
-        userRepository.save(new_user);
-        return ResponseEntity.ok("User added successfully.");
+        userRepository.save(newUser);
     }
 }
