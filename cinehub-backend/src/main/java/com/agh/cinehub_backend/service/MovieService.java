@@ -28,7 +28,7 @@ public class MovieService {
                 .build();
 
 
-        // TODO: any error handling?
+        // TODO: any error handling? empty data inserts into table
         movieRepository.save(newFilm);
     }
 }
