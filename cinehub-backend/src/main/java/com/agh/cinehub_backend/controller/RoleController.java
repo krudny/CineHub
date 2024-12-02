@@ -1,7 +1,5 @@
 package com.agh.cinehub_backend.controller;
 
-import com.agh.cinehub_backend.model.Role;
-import com.agh.cinehub_backend.repository.RoleRepository;
 import com.agh.cinehub_backend.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
