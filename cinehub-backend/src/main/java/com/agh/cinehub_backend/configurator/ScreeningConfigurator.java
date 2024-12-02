@@ -31,13 +31,13 @@ public class ScreeningConfigurator {
     @PostConstruct
     public void init() {
         if (screeningRepository.count() == 0) {
-            createMultipleScreenings("Inception", "101", BigDecimal.valueOf(20), LocalDate.of(2025, 5, 12));
-            createMultipleScreenings("Inception", "101", BigDecimal.valueOf(20), LocalDate.of(2025, 5, 13));
-            createMultipleScreenings("Inception", "101", BigDecimal.valueOf(20), LocalDate.of(2025, 5, 14));
+            createMultipleScreenings("Inception", "101", 20, LocalDate.of(2025, 5, 12));
+            createMultipleScreenings("Inception", "101", 20, LocalDate.of(2025, 5, 13));
+            createMultipleScreenings("Inception", "101", 20, LocalDate.of(2025, 5, 14));
         }
     }
 
-    private void createScreening(Movie movie, Room room, BigDecimal price, LocalDateTime startDate) {
+    private void createScreening(Movie movie, Room room, float price, LocalDateTime startDate) {
         Screening screening = new Screening();
         screening.setMovie(movie);
         screening.setRoom(room);
@@ -46,7 +46,7 @@ public class ScreeningConfigurator {
         screeningRepository.save(screening);
     }
 
-    private void createMultipleScreenings(String movieName, String roomName, BigDecimal price, LocalDate date) {
+    private void createMultipleScreenings(String movieName, String roomName, float price, LocalDate date) {
         Movie movie = movieRepository.findByTitle(movieName).orElse(null);
         Room room = roomRepository.findByName(roomName).orElse(null);
 

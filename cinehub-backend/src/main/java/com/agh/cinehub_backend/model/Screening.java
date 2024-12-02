@@ -1,7 +1,10 @@
 package com.agh.cinehub_backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,6 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "screenings")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Screening {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +31,7 @@ public class Screening {
     private LocalDateTime startDate;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private float price;
 
 }
 

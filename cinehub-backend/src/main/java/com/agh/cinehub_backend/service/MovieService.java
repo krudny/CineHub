@@ -5,7 +5,6 @@ import com.agh.cinehub_backend.model.Genre;
 import com.agh.cinehub_backend.model.Movie;
 import com.agh.cinehub_backend.repository.MovieRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
