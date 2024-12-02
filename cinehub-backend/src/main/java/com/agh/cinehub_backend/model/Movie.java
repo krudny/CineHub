@@ -3,10 +3,16 @@ import jakarta.persistence.*;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Data
 @Table(name = "movies")
@@ -22,7 +28,7 @@ public class Movie {
     @Column(nullable = false, length = 30)
     private String title;
 
-    @Column(length = 50)
+    @Column(length = 250)
     private String description;
 
     private Integer duration;

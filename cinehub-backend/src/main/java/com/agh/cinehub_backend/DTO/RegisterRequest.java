@@ -1,6 +1,5 @@
 package com.agh.cinehub_backend.DTO;
 
-import com.agh.cinehub_backend.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
