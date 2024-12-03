@@ -7,8 +7,11 @@ import com.agh.cinehub_backend.DTO.TicketRequest;
 import com.agh.cinehub_backend.model.*;
 import com.agh.cinehub_backend.service.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,8 +38,18 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addMovie(@RequestBody MovieRequest request) {
+    public ResponseEntity<?> addMovie(@Valid @RequestBody MovieRequest request, BindingResult bindingResult) {
         // TODO: check if user have permissions
+
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         movieService.addMovie(request);
         return ResponseEntity.ok("Movie added successfully!");
     }
@@ -49,8 +62,18 @@ public class MovieController {
     }
 
     @PostMapping("/{movieId}/screenings")
-    public ResponseEntity<String> addScreening(@PathVariable int movieId, @RequestBody ScreeningRequest request) {
+    public ResponseEntity<?> addScreening(@PathVariable int movieId, @Valid @RequestBody ScreeningRequest request, BindingResult bindingResult) {
         // TODO: check if user have permissions
+
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         Movie movie = movieService.getMovieById(movieId);
         screeningService.addScreening(movie, request);
 
@@ -65,7 +88,16 @@ public class MovieController {
 
     @Transactional
     @PostMapping("/{movieId}/screenings/{screeningId}/tickets")
-    public ResponseEntity<String> addTicket(@PathVariable int movieId, @PathVariable int screeningId, @RequestBody List<TicketRequest> requests) {
+    public ResponseEntity<?> addTicket(@PathVariable int movieId, @PathVariable int screeningId, @Valid @RequestBody List<TicketRequest> requests, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         // TODO: check if user is logged in and get requesting user
         int userId = 1;
         User user = userService.getUserById(userId);
@@ -86,7 +118,16 @@ public class MovieController {
     }
 
     @PostMapping("/{movieId}/reviews")
-    public ResponseEntity<String> addReview(@PathVariable int movieId, @RequestBody ReviewRequest request) {
+    public ResponseEntity<?> addReview(@PathVariable int movieId, @Valid @RequestBody ReviewRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         // TODO: check if user is logged in and get requesting user
         int userId = 1;
         User user = userService.getUserById(userId);

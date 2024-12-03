@@ -3,7 +3,10 @@ package com.agh.cinehub_backend.controller;
 import com.agh.cinehub_backend.DTO.DiscountRequest;
 import com.agh.cinehub_backend.model.Discount;
 import com.agh.cinehub_backend.service.DiscountService;
+import jakarta.validation.Valid;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +31,18 @@ public class DiscountController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addDiscount(@RequestBody DiscountRequest request) {
+    public ResponseEntity<?> addDiscount(@Valid @RequestBody DiscountRequest request, BindingResult bindingResult) {
+        // TODO: check if user have permissions
+
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         discountService.addDiscount(request);
         return ResponseEntity.ok("Discount " + request.getName() + " with value " + request.getValue() + " added successfully");
     }

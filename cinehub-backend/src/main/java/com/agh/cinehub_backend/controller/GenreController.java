@@ -5,8 +5,11 @@ import com.agh.cinehub_backend.DTO.ScreeningRequest;
 import com.agh.cinehub_backend.model.Genre;
 import com.agh.cinehub_backend.model.Movie;
 import com.agh.cinehub_backend.service.GenreService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +26,18 @@ public class GenreController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addGenre(@RequestBody GenreRequest request) {
+    public ResponseEntity<?> addGenre(@Valid @RequestBody GenreRequest request, BindingResult bindingResult) {
         // TODO: check if user have permissions
+
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toList();
+
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         genreService.addGenre(request);
         return ResponseEntity.ok("Genre with name " + request.getGenre() + " added successfully!");
     }
