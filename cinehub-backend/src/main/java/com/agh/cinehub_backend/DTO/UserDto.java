@@ -1,4 +1,4 @@
-package com.agh.cinehub_backend.dto;
+package com.agh.cinehub_backend.DTO;
 
 import com.agh.cinehub_backend.model.Role;
 

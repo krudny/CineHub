@@ -1,7 +1,7 @@
 package com.agh.cinehub_backend.controller;
 
 
-import com.agh.cinehub_backend.dto.UserDto;
+import com.agh.cinehub_backend.DTO.UserDto;
 import com.agh.cinehub_backend.model.User;
 import com.agh.cinehub_backend.repository.UserRepository;
 import com.agh.cinehub_backend.service.UserService;
