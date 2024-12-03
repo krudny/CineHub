@@ -1,39 +1,41 @@
 package com.agh.cinehub_backend.controller;
 
-import com.agh.cinehub_backend.DTO.RegisterRequest;
+
+import com.agh.cinehub_backend.dto.UserDto;
+import com.agh.cinehub_backend.model.User;
+import com.agh.cinehub_backend.repository.UserRepository;
 import com.agh.cinehub_backend.service.UserService;
-import jakarta.validation.Valid;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/auth")
+@AllArgsConstructor
 public class UserController {
+    private final UserRepository userRepository;
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    @GetMapping("/users")
+    public Page<UserDto> getUsers(@RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        return userPage.map(userService::userDtoMapper);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest request, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toList();
+    @GetMapping("/user/{id}")
+    public UserDto getUserById(@PathVariable Integer id ) {
+       User user = userRepository.findById(id).orElseThrow(
+               () -> new RuntimeException("User with id" + id + "not found"));
 
-            return ResponseEntity.badRequest().body(errors);
-        }
-
-        userService.registerUser(request);
-        return ResponseEntity.ok("User added successfully.");
+        return userService.userDtoMapper(user);
     }
 }

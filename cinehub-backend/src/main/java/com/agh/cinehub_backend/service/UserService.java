@@ -1,6 +1,7 @@
 package com.agh.cinehub_backend.service;
 
 import com.agh.cinehub_backend.DTO.RegisterRequest;
+import com.agh.cinehub_backend.dto.UserDto;
 import com.agh.cinehub_backend.model.Role;
 import com.agh.cinehub_backend.model.User;
 import com.agh.cinehub_backend.repository.UserRepository;
@@ -36,5 +37,10 @@ public class UserService {
     public User getUserById(int id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User with id: " + id + " does not exist."));
+    }
+
+    public UserDto userDtoMapper(User user){
+        return new UserDto(user.getUserId(), user.getRole(),
+                user.getEmail(), user.getFirstname(), user.getLastname());
     }
 }
