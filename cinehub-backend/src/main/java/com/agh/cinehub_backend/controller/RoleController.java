@@ -1,22 +1,21 @@
 package com.agh.cinehub_backend.controller;
 
+import com.agh.cinehub_backend.DTO.RoleRequest;
 import com.agh.cinehub_backend.service.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/role")
+@RequestMapping("/api/roles")
 public class RoleController {
     private final RoleService roleService;
 
-    @GetMapping("/add")
-    public ResponseEntity<String> addRole(@RequestParam String name) {
-        roleService.addRole(name);
-        return ResponseEntity.ok("Role '" + name + "' added successfully.");
+    @PostMapping
+    public ResponseEntity<String> addRole(@RequestBody RoleRequest request) {
+        // TODO: check if user have permissions
+        roleService.addRole(request);
+        return ResponseEntity.ok("Role '" + request.getName() + "' added successfully.");
     }
 }

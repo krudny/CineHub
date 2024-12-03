@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -19,13 +20,9 @@ public class TicketService {
     private final StatusRepository statusRepository;
 
     // TODO: there's no validation if seat is taken and room capacity is not exceeded
-    public void addTicket(TicketRequest ticketRequest) {
-        User user = userRepository.findById(ticketRequest.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void addTicket(User user, Screening screening, TicketRequest ticketRequest) {
         Discount discount = discountRepository.findByName(ticketRequest.getDiscountName())
                 .orElseThrow(() -> new IllegalArgumentException("Discount not found"));
-        Screening screening = screeningRepository.findById(ticketRequest.getScreeningId())
-                .orElseThrow(() -> new IllegalArgumentException("Screening not found"));
         Seat seat = seatRepository.findById(ticketRequest.getSeatId())
                 .orElseThrow(() -> new IllegalArgumentException("Seat not found"));
         Status status = statusRepository.findByName("Pending")
@@ -49,4 +46,11 @@ public class TicketService {
     }
 
 
+    public List<Ticket> getTicketsByUser(User user) {
+        return ticketRepository.findAllByUser(user);
+    }
+
+    public List<Ticket> getTicketsByScreening(Screening screening) {
+        return ticketRepository.findAllByScreening(screening);
+    }
 }

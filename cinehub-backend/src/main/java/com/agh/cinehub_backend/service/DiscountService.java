@@ -1,5 +1,6 @@
 package com.agh.cinehub_backend.service;
 
+import com.agh.cinehub_backend.DTO.DiscountRequest;
 import com.agh.cinehub_backend.model.Discount;
 import com.agh.cinehub_backend.repository.DiscountRepository;
 import lombok.AllArgsConstructor;
@@ -21,19 +22,19 @@ public class DiscountService {
         return discountRepository.getAllDiscountsNames();
     }
 
-    public void addDiscount(String name, Float value) {
-        if (value < 0 || value > 100) {
+    public void addDiscount(DiscountRequest request) {
+        if (request.getValue() < 0 || request.getValue() > 100) {
             throw new IllegalArgumentException("Invalid discount value.");
         }
 
         Discount newDiscount = Discount.builder()
-                        .name(name)
-                        .value(value)
+                        .name(request.getName())
+                        .value(request.getValue())
                         .build();
         try {
             discountRepository.save(newDiscount);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Discount with name '" + name + "' already exists.");
+            throw new IllegalArgumentException("Discount with name '" + request.getName() + "' already exists.");
         }
 
     }

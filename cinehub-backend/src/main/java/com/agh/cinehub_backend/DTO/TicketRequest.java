@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketRequest {
-    private Integer userId;
     private String discountName;
-    private Integer screeningId;
     // TODO: Probably that should be changed
     private Integer seatId;
 }

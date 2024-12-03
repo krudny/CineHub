@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ScreeningRequest {
     private String roomName;
-    private String movieTitle;
     private LocalDateTime startDate;
     private float price;
 }

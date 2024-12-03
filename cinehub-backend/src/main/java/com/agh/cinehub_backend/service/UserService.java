@@ -32,4 +32,9 @@ public class UserService {
 
         userRepository.save(newUser);
     }
+
+    public User getUserById(int id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User with id: " + id + " does not exist."));
+    }
 }

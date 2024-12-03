@@ -1,10 +1,13 @@
 package com.agh.cinehub_backend.service;
 
+import com.agh.cinehub_backend.DTO.GenreRequest;
 import com.agh.cinehub_backend.model.Genre;
 import com.agh.cinehub_backend.repository.GenreRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -16,15 +19,19 @@ public class GenreService {
                 .orElseThrow(() -> new IllegalArgumentException("Genre with name '" + name + "' doesn't exist."));
     }
 
-    public void addGenre(String name) {
+    public void addGenre(GenreRequest request) {
         Genre newGenre = Genre.builder()
-                .genre(name)
+                .genre(request.getGenre())
                 .build();
 
         try {
             genreRepository.save(newGenre);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Genre with name '" + name + "' already exists.");
+            throw new IllegalArgumentException("Genre with name '" + request.getGenre() + "' already exists.");
         }
+    }
+
+    public List<Genre> getAllGenres() {
+        return genreRepository.findAll();
     }
 }

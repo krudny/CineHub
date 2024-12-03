@@ -6,8 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class ReviewRequest {
-    private Integer userId;
-    private String movieTitle;
     private Integer score;
     private String description;
 }

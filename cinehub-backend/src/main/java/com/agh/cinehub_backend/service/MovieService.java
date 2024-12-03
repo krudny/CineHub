@@ -7,6 +7,8 @@ import com.agh.cinehub_backend.repository.MovieRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class MovieService {
@@ -29,5 +31,18 @@ public class MovieService {
 
         // TODO: any error handling? empty data inserts into table
         movieRepository.save(newFilm);
+    }
+
+    public List<Movie> getAllMovies() {
+        return movieRepository.findAll();
+    }
+
+    public List<Movie> getMoviesByGenre(Genre genre) {
+        return movieRepository.findAllByGenre(genre);
+    }
+
+    public Movie getMovieById(int id) {
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
     }
 }

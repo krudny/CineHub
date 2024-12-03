@@ -1,23 +1,28 @@
 package com.agh.cinehub_backend.controller;
 
 import com.agh.cinehub_backend.DTO.TicketRequest;
+import com.agh.cinehub_backend.model.Ticket;
+import com.agh.cinehub_backend.model.User;
 import com.agh.cinehub_backend.service.TicketService;
+import com.agh.cinehub_backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/ticket")
+@RequestMapping("/api/tickets")
 public class TicketController {
     private final TicketService ticketService;
+    private final UserService userService;
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addTicket(@RequestBody TicketRequest ticketRequest) {
-        ticketService.addTicket(ticketRequest);
-        return ResponseEntity.ok("Ticket added successfully");
+    @GetMapping
+    public List<Ticket> getUserTickets() {
+        // TODO: check if user is logged in and get requesting user
+        int userId = 1;
+        User user = userService.getUserById(userId);
+        return ticketService.getTicketsByUser(user);
     }
 }
