@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Navbar from "@/app/components/Navbar";
 
 const arr = [0, 1, 2, 3, 4, 5, 6, 7];
 
@@ -6,6 +7,10 @@ export default function Page() {
   return (
     <div>
       <div className="relative w-full h-screen flex items-center">
+        <div className="w-full absolute top-0 z-20">
+          <Navbar />
+        </div>
+
         <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
         <Image
           src="/the_witcher.jpg"
@@ -19,7 +24,7 @@ export default function Page() {
         <div className="absolute w-full lg:w-3/5 h-screen flex justify-center items-center z-20">
           <div className="mx-16">
             <div>
-              <p className="text-white text-5xl lg:text-8xl font-bold font-oswald">
+              <p className="text-white text-5xl lg:text-7xl 3xl:text-8xl font-bold font-oswald">
                 The Witcher
               </p>
             </div>
