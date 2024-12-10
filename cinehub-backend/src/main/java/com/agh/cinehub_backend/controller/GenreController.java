@@ -30,12 +30,7 @@ public class GenreController {
         // TODO: check if user have permissions
 
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toList();
-
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors().getFirst().getDefaultMessage());
         }
 
         genreService.addGenre(request);

@@ -42,12 +42,7 @@ public class MovieController {
         // TODO: check if user have permissions
 
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toList();
-
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors().getFirst().getDefaultMessage());
         }
 
         movieService.addMovie(request);
@@ -66,12 +61,7 @@ public class MovieController {
         // TODO: check if user have permissions
 
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toList();
-
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors().getFirst().getDefaultMessage());
         }
 
         Movie movie = movieService.getMovieById(movieId);
@@ -90,12 +80,7 @@ public class MovieController {
     @PostMapping("/{movieId}/screenings/{screeningId}/tickets")
     public ResponseEntity<?> addTicket(@PathVariable int movieId, @PathVariable int screeningId, @Valid @RequestBody List<TicketRequest> requests, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toList();
-
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors().getFirst().getDefaultMessage());
         }
 
         // TODO: check if user is logged in and get requesting user
@@ -120,12 +105,7 @@ public class MovieController {
     @PostMapping("/{movieId}/reviews")
     public ResponseEntity<?> addReview(@PathVariable int movieId, @Valid @RequestBody ReviewRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getAllErrors()
-                    .stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .toList();
-
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors().getFirst().getDefaultMessage());
         }
 
         // TODO: check if user is logged in and get requesting user
