@@ -5,7 +5,7 @@ export default function Navbar() {
         <p className="p-1 md:py-1.5">Cine</p>
         <p className="bg-orange-500 rounded-lg md:mx-1 p-1 md:p-1.5">Hub</p>
       </div>
-      <div className="flex items-center font-oswald text-md md:text-2xl gap-x-10">
+      <div className="flex items-center font-oswald text-md md:text-2xl gap-x-4 sm:gap-x-10">
         <p className="relative group">
           Menu 1
           <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
