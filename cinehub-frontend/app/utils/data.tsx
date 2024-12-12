@@ -1,4 +1,4 @@
-import HeroProps from "@/app/types/interfaces";
+import { HeroProps } from "@/app/types/interfaces";
 
 export const heroMovie: HeroProps = {
   url: "/the_witcher.jpg",
