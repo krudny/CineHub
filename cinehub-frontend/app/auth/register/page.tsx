@@ -1,5 +1,5 @@
 import { AuthFormProps, AuthProps } from "@/app/types/interfaces";
-import Auth from "@/app/components/Auth";
+import AuthForm from "@/app/components/AuthForm";
 
 const formFields: AuthFormProps[] = [
   { id: "email", type: "email", placeholder: "Email" },
@@ -18,5 +18,5 @@ const data: AuthProps = {
 };
 
 export default function Page() {
-  return <Auth {...data} />;
+  return <AuthForm {...data} />;
 }
