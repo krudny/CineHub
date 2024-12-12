@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export default interface HeroProps {
+export interface HeroProps {
   url: string;
   title: string;
   rating: number;
@@ -9,6 +9,21 @@ export default interface HeroProps {
   description: string;
 }
 
-export default interface LayoutProps {
+export interface LayoutProps {
   children: ReactNode;
+}
+
+export interface AuthFormProps {
+  id: string;
+  type: string;
+  placeholder: string;
+}
+
+export interface AuthProps {
+  welcome: string;
+  greeting: string;
+  actionText: string;
+  actionLink: string;
+  formFields: AuthFormProps[];
+  buttonText: string;
 }
