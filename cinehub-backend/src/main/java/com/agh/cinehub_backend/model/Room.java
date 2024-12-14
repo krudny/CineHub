@@ -13,9 +13,5 @@ public class Room {
 
     @Column(nullable = false, length = 30, unique = true)
     private String name;
-
-    private Integer numberOfSeats;
-
-    private Integer numberOfRows;
 }
 

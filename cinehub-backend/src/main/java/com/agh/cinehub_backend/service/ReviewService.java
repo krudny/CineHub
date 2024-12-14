@@ -19,7 +19,10 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
 
-    public void addReview(User user, Movie movie, ReviewRequest request) {
+    public void addReview(User user, ReviewRequest request) {
+        Movie movie = movieRepository.findById(request.getMovieId())
+                .orElseThrow(() -> new RuntimeException("Movie not found"));
+
         if(reviewRepository.findByUserAndMovie(user, movie).isPresent()) {
             throw new IllegalArgumentException("User already reviewed this movie.");
         }

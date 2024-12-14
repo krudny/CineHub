@@ -23,7 +23,7 @@ public class GenreConfigurator {
 
     private void createGenre(String genreName) {
         Genre genre = new Genre();
-        genre.setGenre(genreName);
+        genre.setName(genreName);
         genreRepository.save(genre);
     }
 }

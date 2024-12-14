@@ -16,7 +16,7 @@ public class MovieService {
     private final GenreService genreService;
 
     public void addMovie(MovieRequest request) {
-        Genre genre = genreService.findByName(request.getGenre());
+        Genre genre = genreService.findByName(request.getGenreName());
 
         Movie newFilm = Movie.builder()
                 .description(request.getDescription())

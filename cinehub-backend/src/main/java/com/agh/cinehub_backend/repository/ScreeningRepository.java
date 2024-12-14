@@ -5,7 +5,9 @@ import com.agh.cinehub_backend.model.Screening;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ScreeningRepository extends JpaRepository<Screening, Integer> {
     List<Screening> findAllByMovie(Movie movie);
+    Optional<Movie> findMovieByScreeningId(Integer id);
 }

@@ -18,6 +18,6 @@ public class Genre {
     private Integer genreId;
 
     @Column(nullable = false, length = 30)
-    private String genre;
+    private String name;
 
 }

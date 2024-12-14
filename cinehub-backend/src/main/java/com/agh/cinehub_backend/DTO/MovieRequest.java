@@ -2,7 +2,6 @@ package com.agh.cinehub_backend.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +21,7 @@ public class MovieRequest {
     @NotBlank(message = "Description cannot be empty")
     private String description;
 
-    @NotNull(message = "Duration cannot be null")
+    @NotNull(message = "Duration cannot be empty")
     @Positive(message = "Duration must be greater than 0")
     private Integer duration;
 
@@ -36,5 +35,5 @@ public class MovieRequest {
     private LocalDate publishDate;
 
     @NotBlank(message = "Genre name cannot be empty")
-    private String genre;
+    private String genreName;
 }

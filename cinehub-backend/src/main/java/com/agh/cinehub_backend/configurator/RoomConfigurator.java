@@ -32,20 +32,18 @@ public class RoomConfigurator {
 
         Room room = new Room();
         room.setName(roomName);
-        room.setNumberOfRows(numberOfRows);
-        room.setNumberOfSeats(numberOfSeats);
         roomRepository.save(room);
 
         createSeatsForRoom(room, numberOfRows, numberOfColumns);
     }
 
-    private void createSeatsForRoom(Room room, int rows, int cols) {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
+    private void createSeatsForRoom(Room room, int numberOfRows, int numberOfSeats) {
+        for (int rowNumber = 0; rowNumber < numberOfRows; rowNumber++) {
+            for (int seatNumber = 0; seatNumber < numberOfSeats; seatNumber++) {
                 Seat seat = new Seat();
                 seat.setRoom(room);
-                seat.setRow_(row);
-                seat.setColumn_(col);
+                seat.setRowNumber(rowNumber);
+                seat.setSeatNumber(seatNumber);
                 seatRepository.save(seat);
             }
         }

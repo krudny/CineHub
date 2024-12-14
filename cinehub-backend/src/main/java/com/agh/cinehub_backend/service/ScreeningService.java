@@ -7,6 +7,7 @@ import com.agh.cinehub_backend.model.Screening;
 import com.agh.cinehub_backend.repository.MovieRepository;
 import com.agh.cinehub_backend.repository.RoomRepository;
 import com.agh.cinehub_backend.repository.ScreeningRepository;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,9 @@ public class ScreeningService {
     private final MovieRepository movieRepository;
     private final RoomRepository roomRepository;
 
-    public void addScreening(Movie movie, ScreeningRequest request) {
+    public void addScreening(ScreeningRequest request) {
         Room room = roomRepository.findByName(request.getRoomName()).orElseThrow(() -> new IllegalArgumentException("Room not found"));
+        Movie movie = movieRepository.findById(request.getMovieId()).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
 
         if(request.getStartDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Screening start date cannot be in the past");
@@ -46,5 +48,10 @@ public class ScreeningService {
     public Screening getScreeningById(int screeningId) {
         return screeningRepository.findById(screeningId)
                 .orElseThrow(() -> new IllegalArgumentException("Screening not found"));
+    }
+
+    public String getMovieTitleByScreeningId(@NotBlank(message = "ScreeningId cannot be empty") Integer screeningId) {
+        Movie movie = movieRepository.findById(screeningId).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+        return movie.getTitle();
     }
 }

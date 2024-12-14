@@ -21,13 +21,13 @@ public class GenreService {
 
     public void addGenre(GenreRequest request) {
         Genre newGenre = Genre.builder()
-                .genre(request.getGenre())
+                .name(request.getName())
                 .build();
 
         try {
             genreRepository.save(newGenre);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Genre with name '" + request.getGenre() + "' already exists.");
+            throw new IllegalArgumentException("Genre with name '" + request.getName() + "' already exists.");
         }
     }
 

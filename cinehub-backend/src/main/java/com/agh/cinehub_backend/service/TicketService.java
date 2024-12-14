@@ -20,13 +20,18 @@ public class TicketService {
     private final StatusRepository statusRepository;
 
     // TODO: there's no validation if seat is taken and room capacity is not exceeded
-    public void addTicket(User user, Screening screening, TicketRequest ticketRequest) {
+    public void addTicket(User user, TicketRequest ticketRequest) {
         Discount discount = discountRepository.findByName(ticketRequest.getDiscountName())
                 .orElseThrow(() -> new IllegalArgumentException("Discount not found"));
+
         Seat seat = seatRepository.findById(ticketRequest.getSeatId())
                 .orElseThrow(() -> new IllegalArgumentException("Seat not found"));
+
         Status status = statusRepository.findByName("Pending")
                 .orElseThrow(() -> new IllegalArgumentException("Status not found"));
+
+        Screening screening = screeningRepository.findById(ticketRequest.getScreeningId())
+                .orElseThrow(() -> new IllegalArgumentException("Screening not found"));
 
         if (screening.getStartDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Screening already started");

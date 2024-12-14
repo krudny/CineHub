@@ -1,6 +1,5 @@
 package com.agh.cinehub_backend.DTO;
 
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -2,6 +2,7 @@ package com.agh.cinehub_backend.DTO;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScreeningRequest {
+    @NotNull(message = "MovieId cannot be empty")
+    private Integer movieId;
+
     @NotBlank(message = "Room name cannot be empty")
     private String roomName;
 
