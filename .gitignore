@@ -1,0 +1,83 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Build directories
+/bin/
+/target/
+/out/
+
+# Gradle
+.gradle/
+/build/
+
+# Maven
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# IntelliJ IDEA specific
+.idea/
+/*.iml
+/modules.xml
+/workspace.xml
+/tasks.xml
+/usage.statistics.xml
+/gradle.xml
+/assetWizardSettings.xml
+/.*.iws
+/shelf/
+/out/
+
+# JetBrains IDE settings
+# Avoid ignoring any versioned settings that the team uses intentionally (e.g., `.idea/codeStyles/Project.xml`)
+/.idea/libraries/
+/.idea/modules.xml
+.idea/.name
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+/.idea/vcs.xml
+
+# Next.js
+.next/
+/out/
+
+# Next.js static files
+/static/*
+!static/.gitkeep
+
+# TypeScript
+*.tsbuildinfo
+
+# Node.js dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+application.properties
+
+# OS-specific
+.DS_Store
+Thumbs.db
+*.swp
+
+# Miscellaneous
+*.log
+*.bak
+*.tmp
