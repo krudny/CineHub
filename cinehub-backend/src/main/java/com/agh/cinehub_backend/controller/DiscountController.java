@@ -6,13 +6,14 @@ import com.agh.cinehub_backend.service.DiscountService;
 import jakarta.validation.Valid;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/discounts")
+@RequestMapping("/discounts")
 public class DiscountController {
     private final DiscountService discountService;
 
@@ -31,6 +32,7 @@ public class DiscountController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> addDiscount(@Valid @RequestBody DiscountRequest request, BindingResult bindingResult) {
         // TODO: check if user have permissions
 

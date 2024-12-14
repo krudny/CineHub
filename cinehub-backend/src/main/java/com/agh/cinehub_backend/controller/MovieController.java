@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +20,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/movies")
+@RequestMapping("/movies")
 public class MovieController {
     private final MovieService movieService;
     private final GenreService genreService;
@@ -38,6 +40,7 @@ public class MovieController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ResponseEntity<?> addMovie(@Valid @RequestBody MovieRequest request, BindingResult bindingResult) {
         // TODO: check if user have permissions
 
@@ -57,6 +60,7 @@ public class MovieController {
     }
 
     @PostMapping("/{movieId}/screenings")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ResponseEntity<?> addScreening(@PathVariable int movieId, @Valid @RequestBody ScreeningRequest request, BindingResult bindingResult) {
         // TODO: check if user have permissions
 
@@ -71,21 +75,22 @@ public class MovieController {
     }
 
     @GetMapping("/{movieId}/screenings/{screeningId}/tickets")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public List<Ticket> getTickets(@PathVariable int movieId, @PathVariable int screeningId) {
         Screening screening = screeningService.getScreeningById(screeningId);
         return ticketService.getTicketsByScreening(screening);
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE', 'USER')")
     @PostMapping("/{movieId}/screenings/{screeningId}/tickets")
     public ResponseEntity<?> addTicket(@PathVariable int movieId, @PathVariable int screeningId, @Valid @RequestBody List<TicketRequest> requests, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors().getFirst().getDefaultMessage());
         }
 
-        // TODO: check if user is logged in and get requesting user
-        int userId = 1;
-        User user = userService.getUserById(userId);
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getUserByEmail(userEmail);
         Movie movie = movieService.getMovieById(movieId);
         Screening screening = screeningService.getScreeningById(screeningId);
         requests.forEach(request -> {
@@ -103,6 +108,7 @@ public class MovieController {
     }
 
     @PostMapping("/{movieId}/reviews")
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE', 'USER')")
     public ResponseEntity<?> addReview(@PathVariable int movieId, @Valid @RequestBody ReviewRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors().getFirst().getDefaultMessage());

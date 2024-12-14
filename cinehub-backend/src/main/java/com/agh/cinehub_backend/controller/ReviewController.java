@@ -7,22 +7,24 @@ import com.agh.cinehub_backend.service.ReviewService;
 import com.agh.cinehub_backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/reviews")
+@RequestMapping("/reviews")
 public class ReviewController {
     private final ReviewService reviewService;
     private final UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE', 'USER')")
     public List<Review> getUserReviews() {
-        // TODO: check if user is logged in and get requesting user
-        int userId = 1;
-        User user = userService.getUserById(userId);
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getUserByEmail(userEmail);
         return reviewService.getReviewsByUser(user);
     }
 }

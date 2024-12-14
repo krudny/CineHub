@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/genres")
+@RequestMapping("/genres")
 public class GenreController {
     private final GenreService genreService;
 
@@ -26,6 +27,7 @@ public class GenreController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ResponseEntity<?> addGenre(@Valid @RequestBody GenreRequest request, BindingResult bindingResult) {
         // TODO: check if user have permissions
 
