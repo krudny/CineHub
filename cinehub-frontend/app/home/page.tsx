@@ -1,9 +1,17 @@
 import Navbar from "@/app/components/Navbar";
 import TrendingFilms from "@/app/components/TrendingFilms";
 import Hero from "@/app/components/Hero";
-import { heroMovie } from "@/app/utils/data";
+import {MovieResponse} from "@/app/types/interfaces";
 
-export default function Page() {
+async function getFeaturedHero(): Promise<MovieResponse> {
+  const response: Response = await fetch("http://localhost:8080/movies/3");
+  return await response.json();
+}
+
+export default async function Page() {
+  const heroMovie: MovieResponse = await getFeaturedHero();
+  console.log(heroMovie);
+
   return (
     <div className="relative w-full">
       <div className="w-full absolute top-0 z-20">

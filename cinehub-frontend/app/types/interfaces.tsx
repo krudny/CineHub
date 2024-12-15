@@ -1,12 +1,19 @@
 import { ReactNode } from "react";
 
-export interface HeroProps {
-  url: string;
+export interface MovieResponse {
+  movieId: number;
+  genre: {
+    genreId: number;
+    name: string;
+  };
   title: string;
-  rating: number;
-  duration: string;
-  year: number;
   description: string;
+  duration: number;
+  production: string;
+  director: string;
+  publishDate: string;
+  bg_img: string;
+  thumbnail_img: string;
 }
 
 export interface LayoutProps {

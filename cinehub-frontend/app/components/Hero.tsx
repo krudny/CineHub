@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import HeroProps from "@/app/types/interfaces";
+import {MovieResponse} from "@/app/types/interfaces";
 
-export default function Hero(props: HeroProps) {
+export default function Hero(props: MovieResponse) {
   const handleScroll = () => {
     window.scrollTo({
       top: window.innerHeight,
@@ -14,7 +14,7 @@ export default function Hero(props: HeroProps) {
     <div className="relative w-full h-screen">
       <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
       <Image
-        src={props.url}
+        src={props.bg_img}
         alt="Hero background"
         layout="fill"
         objectFit="cover"
@@ -31,12 +31,12 @@ export default function Hero(props: HeroProps) {
           </div>
           <div className="flex gap-4 my-4 font-oswald">
             <p className="text-white text-lg lg:text-2xl">
-              Rating: {props.rating}
+              Rating: TODO
             </p>
             <p className="text-white text-lg lg:text-2xl">
               Duration: {props.duration}
             </p>
-            <p className="text-white text-lg lg:text-2xl">Year: {props.year}</p>
+            <p className="text-white text-lg lg:text-2xl">Year: {props.publishDate}</p>
           </div>
           <div className="my-8">
             <p className="text-white text-md lg:text-xl">{props.description}</p>
