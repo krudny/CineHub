@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { AuthFormProps, AuthProps } from "@/app/types/interfaces";
-import { validationRules } from "@/app/types/validationRules";
+import {validationRules} from "@/app/types/validationRules";
 
 type FormValues = {
   [key: string]: string;
@@ -16,6 +16,7 @@ export default function AuthForm({
   formFields,
   buttonText,
 }: AuthProps) {
+
   const {
     register,
     handleSubmit,

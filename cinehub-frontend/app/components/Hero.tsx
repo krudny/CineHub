@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { HeroProps } from "@/app/types/interfaces";
+import HeroProps from "@/app/types/interfaces";
 
 export default function Hero(props: HeroProps) {
   const handleScroll = () => {
