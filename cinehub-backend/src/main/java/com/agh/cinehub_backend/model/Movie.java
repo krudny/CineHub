@@ -41,4 +41,8 @@ public class Movie {
 
     private LocalDate publishDate;
 
+    private String bg_img;
+
+    private String thumbnail_img;
+
 }

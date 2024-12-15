@@ -30,6 +30,11 @@ public class MovieController {
         return movieService.getAllMovies();
     }
 
+    @GetMapping("/{id}")
+    public Movie getMovieById(@PathVariable Integer id) {
+        return movieService.getMovieById(id);
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ResponseEntity<?> addMovie(@Valid @RequestBody MovieRequest request) {
