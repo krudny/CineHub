@@ -7,6 +7,9 @@ import com.agh.cinehub_backend.repository.MovieRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -44,5 +47,14 @@ public class MovieService {
     public Movie getMovieById(int id) {
         return movieRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+    }
+
+    // TODO: improve logic
+    public List<Movie> getTrendingMovies() {
+        Movie movie1 = this.getMovieById(3);
+        Movie movie2 = this.getMovieById(4);
+        Movie movie3 = this.getMovieById(5);
+
+        return Arrays.asList(movie1, movie2, movie3);
     }
 }

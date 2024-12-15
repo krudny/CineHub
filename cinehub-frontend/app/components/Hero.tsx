@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import {MovieResponse} from "@/app/types/interfaces";
+import {convertToHours} from "@/app/utils/functions";
 
 export default function Hero(props: MovieResponse) {
   const handleScroll = () => {
@@ -12,7 +13,7 @@ export default function Hero(props: MovieResponse) {
 
   return (
     <div className="relative w-full h-screen">
-      <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+      <div className="absolute inset-0 bg-black opacity-60 z-10"></div>
       <Image
         src={props.bg_img}
         alt="Hero background"
@@ -34,7 +35,7 @@ export default function Hero(props: MovieResponse) {
               Rating: TODO
             </p>
             <p className="text-white text-lg lg:text-2xl">
-              Duration: {props.duration}
+              Duration: {convertToHours(props.duration)}
             </p>
             <p className="text-white text-lg lg:text-2xl">Year: {props.publishDate}</p>
           </div>

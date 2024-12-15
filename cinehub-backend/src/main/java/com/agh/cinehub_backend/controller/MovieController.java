@@ -35,6 +35,11 @@ public class MovieController {
         return movieService.getMovieById(id);
     }
 
+    @GetMapping("/trending")
+    public List<Movie> getTrendingMovies() {
+        return movieService.getTrendingMovies();
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ResponseEntity<?> addMovie(@Valid @RequestBody MovieRequest request) {
