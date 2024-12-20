@@ -19,7 +19,7 @@ public class MovieConfigurator {
         this.genreRepository = genreRepository;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         if (movieRepository.count() == 0) {
             createMovie("Inception", "A skilled thief is given a chance at redemption if he can successfully perform an inception.", "Christopher Nolan", "Warner Bros", 148, LocalDate.of(2010, 7, 16), "Action");

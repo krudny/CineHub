@@ -23,7 +23,7 @@ public class GenreController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
+//    @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
     public ResponseEntity<?> addGenre(@Valid @RequestBody GenreRequest request) {
         genreService.addGenre(request);
         return ResponseEntity.ok("Genre with name " + request.getName() + " added successfully!");

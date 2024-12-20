@@ -28,7 +28,7 @@ public class ScreeningConfigurator {
         this.roomRepository = roomRepository;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         if (screeningRepository.count() == 0) {
             createMultipleScreenings("Inception", "101", 20, LocalDate.of(2025, 5, 12));
