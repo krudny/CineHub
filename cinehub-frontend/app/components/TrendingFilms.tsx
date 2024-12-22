@@ -17,39 +17,28 @@ export default async function TrendingFilms() {
         <p className="font-oswald text-zinc-900 font-bold text-6xl">
           Trending films
         </p>
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4 md:gap-12 mt-10">
-          {trending.map((film: MovieResponse) => {
-            return (
-                <Link href={`/movie/${film.movieId}`} key={film.movieId}>
-                <div>
-                    <p className="py-4 text-zinc-900 text-center text-3xl font-bold font-oswald z-10">
-                      {film.title}
-                    </p>
-                      <div
-                          key={film.movieId}
-                          className="relative aspect-[3/4] flex flex-col justify-end items-center"
-                      >
-                        <div className="absolute inset-0 bg-black opacity-10 z-20 transition duration-100 ease-linear hover:opacity-30"></div>
-                        <Image
-                          src={film.thumbnail_img}
-                          alt="thumbnail"
-                          layout="fill"
-                          objectFit="cover"
-                          objectPosition="center"
-                          priority
-                        />
-                        {/*<div className="mb-4 z-10">*/}
-                        {/*  <span className="material-icons text-yellow-500">star</span>*/}
-                        {/*  <span className="material-icons text-yellow-500">star</span>*/}
-                        {/*  <span className="material-icons text-yellow-500">star</span>*/}
-                        {/*  <span className="material-icons text-yellow-500">star</span>*/}
-                        {/*  <span className="material-icons text-yellow-500">star</span>*/}
-                        {/*</div>*/}
-                      </div>
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 mt-10">
+          {trending.map((film: MovieResponse) => (
+              <Link href={`/movie/${film.movieId}`} key={film.movieId}>
+                <div className="w-full">
+                  <div className="relative aspect-[3/4]">
+                    <Image
+                        src={film.thumbnail_img}
+                        alt="thumbnail"
+                        layout="fill"
+                        objectFit="cover"
+                        objectPosition="center"
+                        priority
+                        className="rounded-lg shadow-md"
+                    />
+                    <div className="absolute inset-0 bg-black opacity-10 hover:opacity-30 transition-opacity"></div>
+                  </div>
+                  <p className="mt-4 text-center text-lg font-bold text-gray-900 truncate">
+                    {film.title}
+                  </p>
                 </div>
-                </Link>
-            );
-          })}
+              </Link>
+          ))}
         </div>
       </div>
     </div>

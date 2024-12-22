@@ -25,7 +25,7 @@ public class Movie {
     @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 60)
     private String title;
 
     @Column(length = 800)

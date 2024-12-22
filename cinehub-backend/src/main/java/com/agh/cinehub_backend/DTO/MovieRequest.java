@@ -36,4 +36,10 @@ public class MovieRequest {
 
     @NotBlank(message = "Genre name cannot be empty")
     private String genreName;
+
+    @NotBlank(message = "Movie bg url cannot be empty")
+    private String bgUrl;
+
+    @NotBlank(message = "Thumbnail url cannot be empty")
+    private String thumbnailUrl;
 }

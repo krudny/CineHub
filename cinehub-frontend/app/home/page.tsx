@@ -4,7 +4,7 @@ import Hero from "@/app/components/Hero";
 import {MovieResponse} from "@/app/types/interfaces";
 
 async function getFeaturedHero(): Promise<MovieResponse> {
-  const response: Response = await fetch("http://localhost:8080/movies/5");
+  const response: Response = await fetch("http://localhost:8080/movies/76");
   return await response.json();
 }
 
