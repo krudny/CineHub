@@ -3,7 +3,7 @@ import {MovieResponse} from "@/app/types/interfaces";
 import Link from "next/link";
 
 async function getTrendingFilms() {
-    const response = await fetch("http://localhost:8080/movies/trending");
+    const response = await fetch("http://localhost:8080/movies/trending", { cache: "force-cache" });
     return await response.json();
 }
 
@@ -25,11 +25,9 @@ export default async function TrendingFilms() {
                     <Image
                         src={film.thumbnail_img}
                         alt="thumbnail"
-                        layout="fill"
-                        objectFit="cover"
-                        objectPosition="center"
+                        fill
                         priority
-                        className="rounded-lg shadow-md"
+                        className="w-full h-full object-cover object-center rounded-lg shadow-md"
                     />
                     <div className="absolute inset-0 bg-black opacity-10 hover:opacity-30 transition-opacity"></div>
                   </div>

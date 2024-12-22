@@ -6,12 +6,12 @@ import TicketSummary from "@/app/components/TicketSummary";
 
 
 async function getMovie(id: string) {
-  const res = await fetch(`http://localhost:8080/movies/${id}`);
+  const res = await fetch(`http://localhost:8080/movies/${id}`, { cache: "force-cache" });
   return res.json();
 }
 
 async function getDiscountsNames() {
-  const res = await fetch(`http://localhost:8080/discounts/names`)
+  const res = await fetch(`http://localhost:8080/discounts/names`, { cache: "force-cache" })
   return res.json();
 }
 

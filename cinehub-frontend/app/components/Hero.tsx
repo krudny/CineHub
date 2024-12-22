@@ -2,6 +2,7 @@
 import Image from "next/image";
 import {MovieResponse} from "@/app/types/interfaces";
 import {convertToHours} from "@/app/utils/functions";
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
 export default function Hero(props: MovieResponse) {
   const handleScroll = () => {
@@ -17,9 +18,8 @@ export default function Hero(props: MovieResponse) {
       <Image
         src={props.bg_img}
         alt="Hero background"
-        layout="fill"
-        objectFit="cover"
-        objectPosition="center"
+        className="absolute inset-0 object-cover object-center"
+        fill
         priority
       />
 
@@ -37,7 +37,7 @@ export default function Hero(props: MovieResponse) {
             <p className="text-white text-lg lg:text-2xl">
               Duration: {convertToHours(props.duration)}
             </p>
-            <p className="text-white text-lg lg:text-2xl">Year: {props.publishDate}</p>
+            <p className="text-white text-lg lg:text-2xl">Release year: {props.publishDate}</p>
           </div>
           <div className="my-8">
             <p className="text-white text-md lg:text-xl">{props.description}</p>
@@ -64,8 +64,8 @@ export default function Hero(props: MovieResponse) {
           className="border-neutral-100 text-neutral-100 border-2 rounded-full flex justify-center items-center transition duration-150 ease-in-out hover:bg-neutral-300 hover:text-zinc-900 hover:cursor-pointer"
           onClick={handleScroll}
         >
-          <span className="material-icons p-2">
-            <p className="text-5xl">keyboard_double_arrow_down</p>
+          <span className="p-2 ">
+              <KeyboardDoubleArrowDownIcon fontSize="large"/>
           </span>
         </div>
       </div>
