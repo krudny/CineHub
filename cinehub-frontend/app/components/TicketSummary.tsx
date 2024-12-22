@@ -30,8 +30,8 @@ export default function TicketSummary({discounts}: DiscountsProps) {
 
 
   return (
-      <div className="w-7/12 p-2 text-neutral-100">
-        <div className="bg-zinc-800 rounded-xl p-6 mb-8">
+      <div className="w-7/12  p-2 text-neutral-100 flex flex-col justify-between">
+        <div className="bg-zinc-800 rounded-xl p-6 mb-8 h-full">
           <h1 className="font-bold font-oswald text-4xl">Select your seat</h1>
           <div className="flex justify-between text-xl mt-8">
             <p>Date time</p>
@@ -46,7 +46,7 @@ export default function TicketSummary({discounts}: DiscountsProps) {
             <p>100zł</p>
           </div>
         </div>
-        <div className="bg-orange-500 rounded-xl p-6 text-neutral-100">
+        <div className="bg-orange-500 rounded-xl p-6 text-neutral-100 h-full">
           <h1 className="font-bold font-oswald text-4xl">Payment</h1>
           <div className="w-full mt-8">
             <select

@@ -1,7 +1,10 @@
+
 import Navbar from "@/app/components/Navbar";
 import {MovieResponse} from "@/app/types/interfaces";
 import MovieInfo from "@/app/components/MovieInfo";
 import TicketSummary from "@/app/components/TicketSummary";
+import SeatsGrid from "@/app/components/SeatsGrid";
+
 
 
 
@@ -17,8 +20,11 @@ async function getDiscountsNames() {
 
 
 export default async function MoviePage({ params }: { params: { id: string } })  {
-  const movie: MovieResponse = await getMovie(params.id);
+  const { id } = await params;
+  const movie: MovieResponse = await getMovie(id);
   const discounts: string[] = await getDiscountsNames();
+
+
 
 
   return (
@@ -29,12 +35,7 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
 
       <div className="max-w-7xl mx-auto mt-12 flex pb-56">
         <TicketSummary discounts={discounts} />
-
-        <div className="w-full  p-2">
-          <div className="bg-zinc-800 h-full rounded-xl p-6 text-neutral-100">
-            <p>seats</p>
-          </div>
-        </div>
+        <SeatsGrid />
       </div>
     </div>
   );
