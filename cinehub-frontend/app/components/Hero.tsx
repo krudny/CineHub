@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import {MovieResponse} from "@/app/types/interfaces";
-import {convertToHours} from "@/app/utils/functions";
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import { MovieResponse } from "@/app/types/interfaces";
+import { convertToHours } from "@/app/utils/functions";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 export default function Hero(props: MovieResponse) {
   const handleScroll = () => {
@@ -31,13 +31,13 @@ export default function Hero(props: MovieResponse) {
             </p>
           </div>
           <div className="flex gap-4 my-4 font-oswald">
-            <p className="text-white text-lg lg:text-2xl">
-              Rating: TODO
-            </p>
+            <p className="text-white text-lg lg:text-2xl">Rating: TODO</p>
             <p className="text-white text-lg lg:text-2xl">
               Duration: {convertToHours(props.duration)}
             </p>
-            <p className="text-white text-lg lg:text-2xl">Release year: {props.publishDate}</p>
+            <p className="text-white text-lg lg:text-2xl">
+              Release year: {props.publishDate}
+            </p>
           </div>
           <div className="my-8">
             <p className="text-white text-md lg:text-xl">{props.description}</p>
@@ -65,7 +65,7 @@ export default function Hero(props: MovieResponse) {
           onClick={handleScroll}
         >
           <span className="p-2 ">
-              <KeyboardDoubleArrowDownIcon fontSize="large"/>
+            <KeyboardDoubleArrowDownIcon fontSize="large" />
           </span>
         </div>
       </div>
