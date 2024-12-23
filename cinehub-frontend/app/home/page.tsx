@@ -15,7 +15,7 @@ export default async function Page() {
   console.log(heroMovie);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full select-none">
       <div className="w-full absolute top-0 z-20">
         <Navbar />
       </div>

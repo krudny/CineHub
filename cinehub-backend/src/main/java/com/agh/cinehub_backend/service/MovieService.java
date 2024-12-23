@@ -77,6 +77,7 @@ public class MovieService {
         return movies;
     }
 
+    // TODO: major code refactor needed 
     @Transactional
     public void fetchMovies() {
         webClient

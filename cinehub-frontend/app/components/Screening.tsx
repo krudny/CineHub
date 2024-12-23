@@ -3,6 +3,8 @@
 import useSWR from "swr";
 import { MovieResponse } from "@/app/types/interfaces";
 import { useEffect, useState } from "react";
+import Select from "react-select";
+import { formatDate } from "@/app/utils/functions";
 
 interface Screening {
   screeningId: number;
@@ -10,6 +12,8 @@ interface Screening {
   room: { name: string };
   price: number;
 }
+
+// TODO: MAJOR REFACTOR NEEDED XD
 
 export default function Screening(movie: MovieResponse) {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -19,15 +23,12 @@ export default function Screening(movie: MovieResponse) {
   );
 
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedScreening, setSelectedScreening] = useState<number | null>(
+    null,
+  );
 
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "long",
-      day: "2-digit",
-      month: "2-digit",
-    };
-    return date.toLocaleDateString("en-US", options);
+  const handleTimeClick = (screeningId: number) => {
+    setSelectedScreening(screeningId);
   };
 
   const uniqueDates = data
@@ -35,6 +36,11 @@ export default function Screening(movie: MovieResponse) {
         new Set(data.map((screening) => screening.startDate.split("T")[0])),
       ).sort()
     : [];
+
+  const dateOptions = uniqueDates.map((date) => ({
+    value: date,
+    label: formatDate(date),
+  }));
 
   useEffect(() => {
     if (uniqueDates.length > 0 && !selectedDate) {
@@ -48,21 +54,73 @@ export default function Screening(movie: MovieResponse) {
         <>
           <div className="flex items-center gap-x-4 mt-5">
             <p className="font-bold">Date:</p>
-            <select
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className="text-neutral-100 rounded bg-transparent focus:outline-none transition-all hover:cursor-pointer"
-            >
-              {uniqueDates.map((date) => (
-                <option
-                  key={date}
-                  value={date}
-                  className="bg-neutral-100 text-neutral-700"
-                >
-                  {formatDate(date)}
-                </option>
-              ))}
-            </select>
+            <div className="w-64">
+              <Select
+                value={dateOptions.find(
+                  (option) => option.value === selectedDate,
+                )}
+                onChange={(selectedOption) =>
+                  setSelectedDate(selectedOption?.value || "")
+                }
+                options={dateOptions}
+                placeholder="Select a date"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    backgroundColor: "",
+                    color: "white",
+                    borderColor: "rgb(55, 65, 81)",
+                    borderRadius: "0.375rem",
+                    boxShadow: "none",
+                    "&:hover": { borderColor: "rgb(249, 115, 22)" },
+                  }),
+                  option: (base, { isFocused, isSelected }) => ({
+                    ...base,
+                    backgroundColor: isFocused
+                      ? "rgb(249, 115, 22)"
+                      : isSelected
+                        ? "rgb(249, 115, 22)"
+                        : "rgb(31, 41, 55)",
+                    color: "white",
+                    cursor: "pointer",
+                    "&:active": {
+                      backgroundColor: "rgb(249, 115, 22)",
+                    },
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "rgb(31, 41, 55)",
+                    borderRadius: "0.375rem",
+                    marginTop: "5px",
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    maxHeight: "150px",
+                    overflowY: "auto",
+                    "::-webkit-scrollbar": {
+                      width: "6px",
+                      height: "6px",
+                    },
+                    "::-webkit-scrollbar-thumb": {
+                      backgroundColor: "rgb(55, 65, 81)",
+                      borderRadius: "8px",
+                    },
+                    "::-webkit-scrollbar-track": {
+                      backgroundColor: "rgb(31, 41, 55)",
+                    },
+                  }),
+                  singleValue: (base) => ({
+                    ...base,
+                    color: "white",
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "rgb(156, 163, 175)",
+                  }),
+                }}
+              />
+            </div>
           </div>
 
           <div className="flex items-center gap-x-4 mt-2">
@@ -73,7 +131,15 @@ export default function Screening(movie: MovieResponse) {
                   screening.startDate.startsWith(selectedDate),
                 )
                 .map((screening) => (
-                  <p key={screening.screeningId}>
+                  <p
+                    key={screening.screeningId}
+                    onClick={() => handleTimeClick(screening.screeningId)}
+                    className={`${
+                      selectedScreening === screening.screeningId
+                        ? "bg-orange-500"
+                        : "bg-transparent"
+                    } rounded-2xl px-2 py-1`}
+                  >
                     {new Date(screening.startDate).toLocaleTimeString([], {
                       hour: "2-digit",
                       minute: "2-digit",
@@ -83,8 +149,13 @@ export default function Screening(movie: MovieResponse) {
             </div>
           </div>
 
-          {/* Choose Seat Button */}
-          <button className="flex w-fit mt-3 justify-center items-center px-4 py-3 text-md bg-orange-500 rounded-3xl transition duration-200 ease-in-out hover:bg-orange-600">
+          <button
+            className={`flex w-fit my-3 justify-center items-center px-4 py-3 text-md ${
+              selectedScreening
+                ? "bg-orange-500 hover:bg-orange-600"
+                : "bg-neutral-700"
+            } rounded-3xl transition duration-200 ease-in-out `}
+          >
             <p className="text-zinc-900 font-bold text-md lg:text-lg">
               Choose seat
             </p>
