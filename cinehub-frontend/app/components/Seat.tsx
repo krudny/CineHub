@@ -1,19 +1,30 @@
-export default function Seat({
-  seatNumber,
-  isSelected,
-  onClick,
-}: {
-  seatNumber: number;
-  isSelected: boolean;
-  onClick: (seatNumber: number) => void;
-}) {
+"use client";
+
+import { useState } from "react";
+
+export default function Seat({ seatNumber }: { seatNumber: number }) {
+  const [isSelected, setIsSelected] = useState(false);
+
+  const handleClick = () => {
+    setIsSelected((prev) => !prev);
+  };
+
   return (
     <div
-      onClick={() => onClick(seatNumber)}
-      className={`w-12 h-12 border-2 border-neutral-100 rounded-2xl flex justify-center items-center cursor-pointer 
-      ${isSelected ? "bg-orange-500" : "bg-transparent"}`}
+      className={`relative flex flex-col items-center justify-center w-20 h-20 cursor-pointer select-none`}
+      onClick={handleClick}
     >
-      <span className="font-bold select-none">{seatNumber}</span>
+      <div
+        className={`${isSelected ? "bg-green-600" : "bg-transparent"} relative w-12 h-12 border-2 border-neutral-100 rounded-md z-10 flex items-center justify-center`}
+      >
+        <span className="text-lg font-bold">{seatNumber}</span>
+      </div>
+      <div
+        className={`${isSelected ? "bg-green-600" : "bg-transparent"} relative w-16 h-5 border-2 border-neutral-100 rounded-sm -mt-3 z-0`}
+      ></div>
+      <div
+        className={`${isSelected ? "bg-green-600" : "bg-zinc-900"} absolute top-12 w-[44.16px] h-1  z-10`}
+      ></div>
     </div>
   );
 }

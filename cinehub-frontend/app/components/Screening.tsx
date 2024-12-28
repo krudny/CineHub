@@ -5,11 +5,15 @@ import { MovieResponse } from "@/app/types/interfaces";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import { formatDate } from "@/app/utils/functions";
+import Link from "next/link";
 
 interface Screening {
   screeningId: number;
   startDate: string;
-  room: { name: string };
+  room: {
+    roomId: number;
+    name: string;
+  };
   price: number;
 }
 
@@ -21,6 +25,8 @@ export default function Screening(movie: MovieResponse) {
     `http://localhost:8080/screenings?movieId=${movie.movieId}`,
     fetcher,
   );
+
+  console.log(data);
 
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedScreening, setSelectedScreening] = useState<number | null>(
@@ -149,17 +155,34 @@ export default function Screening(movie: MovieResponse) {
             </div>
           </div>
 
-          <button
-            className={`flex w-fit my-3 justify-center items-center px-4 py-3 text-md ${
-              selectedScreening
-                ? "bg-orange-500 hover:bg-orange-600"
-                : "bg-neutral-700"
-            } rounded-3xl transition duration-200 ease-in-out `}
+          <Link
+            href={{
+              pathname: "/reservation",
+              query: {
+                title: movie.title,
+                fullDate:
+                  data?.find((s) => s.screeningId === selectedScreening)
+                    ?.startDate || "",
+                room: JSON.stringify({
+                  roomId: data?.find((s) => s.screeningId === selectedScreening)?.room.roomId || null,
+                  name: data?.find((s) => s.screeningId === selectedScreening)?.room.name || "",
+                })
+
+              },
+            }}
           >
-            <p className="text-zinc-900 font-bold text-md lg:text-lg">
-              Choose seat
-            </p>
-          </button>
+            <button
+              className={`flex w-fit my-3 justify-center items-center px-4 py-3 text-md ${
+                selectedScreening
+                  ? "bg-orange-500 hover:bg-orange-600"
+                  : "bg-neutral-700"
+              } rounded-3xl transition duration-200 ease-in-out `}
+            >
+              <p className="text-zinc-900 font-bold text-md lg:text-lg">
+                Choose seat
+              </p>
+            </button>
+          </Link>
         </>
       ) : (
         <p className="text-lg text-neutral-500 mt-10">

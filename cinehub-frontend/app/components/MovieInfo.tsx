@@ -48,7 +48,6 @@ export default function MovieInfo(movie: MovieResponse) {
           </div>
         </div>
 
-
         <Screening {...movie} />
       </div>
     </div>

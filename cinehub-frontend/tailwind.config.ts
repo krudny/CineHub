@@ -8,6 +8,12 @@ export default {
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        5: "repeat(5, minmax(0, 1fr))",
+        7: "repeat(7, minmax(0, 1fr))",
+        9: "repeat(9, minmax(0, 1fr))",
+        11: "repeat(11, minmax(0, 1fr))",
+      },
       fontFamily: {
         raleway: ["Raleway", "sans-serif"],
         oswald: ["Oswald", "sans-serif"],
