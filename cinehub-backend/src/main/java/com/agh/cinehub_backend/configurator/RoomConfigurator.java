@@ -18,34 +18,31 @@ public class RoomConfigurator {
         this.seatRepository = seatRepository;
     }
 
-//    @PostConstruct
-//    public void init() {
-//        if (roomRepository.count() == 0) {
-//            createRoom("101", 10, 12);
-//            createRoom("102", 5, 8);
-//            createRoom("103", 15, 20);
-//        }
-//    }
+    @PostConstruct
+    public void init() {
+        if (roomRepository.count() == 0) {
+            createRoom("101", 10);
+            createRoom("102", 5);
+            createRoom("103", 15);
+        }
+    }
 
-//    private void createRoom(String roomName, int numberOfRows, int numberOfColumns) {
-//        int numberOfSeats = numberOfRows * numberOfColumns;
-//
-//        Room room = new Room();
-//        room.setName(roomName);
-//        roomRepository.save(room);
-//
-//        createSeatsForRoom(room, numberOfRows, numberOfColumns);
-//    }
+    private void createRoom(String roomName, int numberOfRows) {
+        int numberOfSeats = 5 + 7 + 9 * (numberOfRows-2);
 
-//    private void createSeatsForRoom(Room room, int numberOfRows, int numberOfSeats) {
-//        for (int rowNumber = 0; rowNumber < numberOfRows; rowNumber++) {
-//            for (int seatNumber = 0; seatNumber < numberOfSeats; seatNumber++) {
-//                Seat seat = new Seat();
-//                seat.setRoom(room);
-//                seat.setRowNumber(rowNumber);
-//                seat.setSeatNumber(seatNumber);
-//                seatRepository.save(seat);
-//            }
-//        }
-//    }
+        Room room = new Room();
+        room.setName(roomName);
+        roomRepository.save(room);
+
+        createSeatsForRoom(room, numberOfSeats);
+    }
+
+    private void createSeatsForRoom(Room room, int numberOfSeats) {
+        for (int seatNumber = 0; seatNumber < numberOfSeats; seatNumber++) {
+            Seat seat = new Seat();
+            seat.setRoom(room);
+            seat.setSeatNumber(seatNumber);
+            seatRepository.save(seat);
+        }
+    }
 }

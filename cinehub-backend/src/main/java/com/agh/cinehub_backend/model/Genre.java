@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "genres")
 public class Genre {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer genreId;
 
     @Column(nullable = false, length = 30)

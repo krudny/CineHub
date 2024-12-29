@@ -47,7 +47,6 @@ public class GenreService {
 
         if (response != null && response.containsKey("genres")) {
             List<Map<String, Object>> genres = (List<Map<String, Object>>) response.get("genres");
-
             genres.forEach(genreData -> {
                 Integer id = (Integer) genreData.get("id");
                 String name = (String) genreData.get("name");

@@ -71,7 +71,7 @@ public class MovieService {
     // TODO: improve logic
     public List<Movie> getTrendingMovies() {
         List<Movie> movies = new ArrayList<>();
-        for (int i = 75; i <= 90; i++) {
+        for (int i = 1; i <= 20; i++) {
             movies.add(this.getMovieById(i));
         }
         return movies;

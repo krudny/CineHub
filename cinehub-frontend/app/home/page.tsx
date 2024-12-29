@@ -1,10 +1,10 @@
+import Hero from "@/app/components/Hero";
 import Navbar from "@/app/components/Navbar";
 import TrendingFilms from "@/app/components/TrendingFilms";
-import Hero from "@/app/components/Hero";
 import { MovieResponse } from "@/app/types/interfaces";
 
 async function getFeaturedHero(): Promise<MovieResponse> {
-  const response: Response = await fetch("http://localhost:8080/movies/77", {
+  const response: Response = await fetch("http://localhost:8080/movies/2", {
     cache: "force-cache",
   });
   return await response.json();

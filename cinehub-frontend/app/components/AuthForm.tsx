@@ -1,8 +1,8 @@
 "use client";
-import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { AuthFormProps, AuthProps } from "@/app/types/interfaces";
 import { validationRules } from "@/app/types/validationRules";
+import Link from "next/link";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormValues = {
   [key: string]: string;
@@ -24,8 +24,53 @@ export default function AuthForm({
     mode: "onBlur",
   });
 
-  const onSubmit: SubmitHandler<Record<string, string>> = (data) => {
-    console.log("Form Data:", data);
+  async function handleLogin(data: Record<string, string>) {
+    const formData = new FormData();
+    formData.append("username", data["email"]);
+    formData.append("password", data["password"]);
+
+    const res = await fetch(`http://localhost:8080/login`, {
+      method: "post",
+      credentials: "include",
+      body: formData,
+    });
+
+    if (res.ok) {
+      document.location = "/home";
+    } else {
+      window.alert("zle passy");
+    }
+  }
+
+  async function handleRegister(data: Record<string, string>) {
+    console.log(data);
+    const regData = {
+      firstname: data["name"].split(" ")[0],
+      lastname: data["name"].split(" ")[1],
+      email: data["email"],
+      password: data["password"],
+    };
+
+    const res = await fetch(`http://localhost:8080/register`, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(regData),
+    });
+
+    if (res.ok) {
+      document.location = "/home";
+    } else {
+      window.alert("something is no yes");
+    }
+  }
+
+  const onSubmit: SubmitHandler<Record<string, string>> = async (data) => {
+    console.log(actionLink);
+
+    if (actionLink == "/auth/login") await handleLogin(data);
+    if (actionLink == "/auth/register") await handleRegister(data);
   };
 
   return (
@@ -58,7 +103,7 @@ export default function AuthForm({
                 placeholder={field.placeholder}
                 {...register(
                   field.id,
-                  validationRules[field.id as keyof typeof validationRules],
+                  validationRules[field.id as keyof typeof validationRules]
                 )}
               />
               {errors[field.id] && (

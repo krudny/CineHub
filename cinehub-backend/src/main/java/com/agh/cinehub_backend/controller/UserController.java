@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @AllArgsConstructor
 public class UserController {
@@ -41,5 +44,15 @@ public class UserController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest request) {
         userService.registerUser(request);
         return ResponseEntity.ok("Registered successfully.");
+    }
+
+    @PostMapping("/login-success")
+    public ResponseEntity<String> loginSuccess() {
+        return ResponseEntity.ok("ok");
+    }
+
+    @PostMapping("/login-failure")
+    public ResponseEntity<String> loginFailure() {
+        return ResponseEntity.badRequest().body("nie ok");
     }
 }
