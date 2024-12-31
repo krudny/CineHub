@@ -12,7 +12,7 @@ const data: AuthProps = {
   greeting:
     "Embark on a journey where your aspirations meet endless possibilities. Join us today and transform your dreams into reality!",
   actionText: "Already registered?",
-  actionLink: "/auth/register",
+  actionLink: "/auth/login",
   formFields: formFields,
   buttonText: "Create account",
 };

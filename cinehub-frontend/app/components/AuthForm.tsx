@@ -67,10 +67,8 @@ export default function AuthForm({
   }
 
   const onSubmit: SubmitHandler<Record<string, string>> = async (data) => {
-    console.log(actionLink);
-
-    if (actionLink == "/auth/login") await handleLogin(data);
-    if (actionLink == "/auth/register") await handleRegister(data);
+    if (actionLink == "/auth/register") await handleLogin(data);
+    if (actionLink == "/auth/login") await handleRegister(data);
   };
 
   return (

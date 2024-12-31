@@ -11,7 +11,7 @@ const data: AuthProps = {
   greeting:
     "Experience the magic of cinema with the latest blockbusters and timeless classics. Join us for unforgettable moments on the big screen!",
   actionText: "Don't have an account?",
-  actionLink: "/auth/login",
+  actionLink: "/auth/register",
   formFields: formFields,
   buttonText: "Login",
 };
