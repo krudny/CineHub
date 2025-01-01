@@ -43,8 +43,9 @@ export interface Room {
 export interface SeatProps {
   seatId: number;
   seatNumber: number;
-  isReserved?: boolean;
-  onReserve: (seatId: number) => void;
+  isTaken: boolean;
+  isSelected: boolean;
+  pickSeatAction: (seatId: number) => void;
 }
 
 export interface ReservationProps {
@@ -53,4 +54,14 @@ export interface ReservationProps {
     fullDate: string;
     room: string;
   };
+}
+
+export interface SeatGeneratorProps {
+  seats: {
+    seatId: number;
+    seatNumber: number;
+  }[];
+  pickSeatAction: (seatId: number) => void;
+  selectedSeat: number | null;
+  takenSeats: number[];
 }

@@ -2,8 +2,17 @@ import Image from "next/image";
 import { convertToHours } from "@/app/utils/functions";
 import { MovieResponse } from "@/app/types/interfaces";
 import Screening from "@/app/components/Screening";
+import {getTrendingFilms} from "@/app/home/page";
 
-export default function MovieInfo(movie: MovieResponse) {
+
+export default async function MovieInfo({ id }: { id: string}) {
+  const trending: MovieResponse[] = await getTrendingFilms();
+  const movie: MovieResponse | undefined = trending.find((item) => item.movieId === Number(id));
+
+  if (!movie) {
+    throw new Error("No movie found");
+  }
+
   return (
     <div className="flex max-w-7xl mx-auto mt-8 select-none ">
       <div className="w-1/3 h p-8">
@@ -48,7 +57,7 @@ export default function MovieInfo(movie: MovieResponse) {
           </div>
         </div>
 
-        <Screening {...movie} />
+        <Screening id={movie.movieId} />
       </div>
     </div>
   );

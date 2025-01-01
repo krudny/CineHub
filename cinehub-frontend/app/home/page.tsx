@@ -3,16 +3,17 @@ import Navbar from "@/app/components/Navbar";
 import TrendingFilms from "@/app/components/TrendingFilms";
 import { MovieResponse } from "@/app/types/interfaces";
 
-async function getFeaturedHero(): Promise<MovieResponse> {
-  const response: Response = await fetch("http://localhost:8080/movies/2", {
-    cache: "force-cache",
-  });
+export async function getTrendingFilms(): Promise<MovieResponse[]> {
+  const response: Response = await fetch("http://localhost:8080/movies/trending", { next: { revalidate: 30 }})
   return await response.json();
 }
 
 export default async function Page() {
-  const heroMovie: MovieResponse = await getFeaturedHero();
-  console.log(heroMovie);
+  const trending: MovieResponse[] = await getTrendingFilms();
+
+  // during production version, random is prerendered
+  const randomHero = Math.floor(Math.random() * trending.length)
+
 
   return (
     <div className="relative w-full select-none">
@@ -20,7 +21,7 @@ export default async function Page() {
         <Navbar />
       </div>
 
-      <Hero {...heroMovie} />
+      <Hero {...trending[randomHero]} />
 
       <TrendingFilms />
     </div>
