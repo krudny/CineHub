@@ -7,7 +7,7 @@ export default function Seat({ seatId, seatNumber, isTaken, isSelected, pickSeat
 
   return (
     <div className={`relative flex flex-col items-center justify-center w-20 h-20 cursor-pointer select-none`}>
-      <div onClick={() => pickSeatAction(seatId)} className="flex flex-col items-center">
+      <div onClick={() => pickSeatAction({seatId: seatId, seatNumber: seatNumber})} className="flex flex-col items-center">
       <div
         className={`${seatColor} relative  w-12 h-12 border-2 border-neutral-100 rounded-md z-10 flex items-center justify-center`}
       >

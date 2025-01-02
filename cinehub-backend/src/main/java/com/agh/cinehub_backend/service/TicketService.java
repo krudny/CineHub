@@ -39,7 +39,13 @@ public class TicketService {
             throw new IllegalArgumentException("Screening already started");
         }
 
-        if (ticketRepository.existsByScreeningAndSeat(screening, seat)) {
+        List<Seat> seatsTaken = ticketRepository
+                .findByScreeningAndSeat(screening, seat)
+                .stream()
+                .filter(ticket -> !Statuses.CANCELLED.getName().equals(ticket.getStatus().getName()))
+                .map(Ticket::getSeat)
+                .toList();
+        if (!seatsTaken.isEmpty()) {
             throw new IllegalArgumentException("Seat already taken");
         }
 

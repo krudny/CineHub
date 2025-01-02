@@ -38,7 +38,7 @@ public class RoomConfigurator {
     }
 
     private void createSeatsForRoom(Room room, int numberOfSeats) {
-        for (int seatNumber = 0; seatNumber < numberOfSeats; seatNumber++) {
+        for (int seatNumber = 1; seatNumber <= numberOfSeats; seatNumber++) {
             Seat seat = new Seat();
             seat.setRoom(room);
             seat.setSeatNumber(seatNumber);

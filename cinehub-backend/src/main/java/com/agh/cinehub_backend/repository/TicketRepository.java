@@ -11,5 +11,5 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findAllByUser(User user);
     List<Ticket> findAllByScreening(Screening screening);
-    Boolean existsByScreeningAndSeat(Screening screening, Seat seat);
+    List<Ticket> findByScreeningAndSeat(Screening screening, Seat seat);
 }

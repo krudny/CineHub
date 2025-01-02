@@ -45,7 +45,7 @@ export interface SeatProps {
   seatNumber: number;
   isTaken: boolean;
   isSelected: boolean;
-  pickSeatAction: (seatId: number) => void;
+  pickSeatAction: (seatId: Seat) => void;
 }
 
 export interface ReservationProps {
@@ -57,11 +57,22 @@ export interface ReservationProps {
 }
 
 export interface SeatGeneratorProps {
-  seats: {
-    seatId: number;
-    seatNumber: number;
-  }[];
-  pickSeatAction: (seatId: number) => void;
-  selectedSeat: number | null;
+  seats: Seat[];
+  pickSeatAction: (seat: Seat) => void;
+  selectedSeats: Seat[];
   takenSeats: number[];
+}
+
+export interface Seat {
+  seatId: number;
+  seatNumber: number;
+}
+
+export interface Ticket {
+  seatId: number;
+  seatNumber: number;
+  discountName: string;
+  screeningId: number;
+  basePrice: number;
+  discountValue: number;
 }
