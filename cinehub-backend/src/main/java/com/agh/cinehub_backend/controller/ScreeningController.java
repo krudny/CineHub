@@ -3,6 +3,7 @@ package com.agh.cinehub_backend.controller;
 import com.agh.cinehub_backend.DTO.ScreeningRequest;
 import com.agh.cinehub_backend.model.Movie;
 import com.agh.cinehub_backend.model.Screening;
+import com.agh.cinehub_backend.model.Seat;
 import com.agh.cinehub_backend.service.MovieService;
 import com.agh.cinehub_backend.service.ScreeningService;
 import jakarta.validation.Valid;
@@ -36,5 +37,11 @@ public class ScreeningController {
         Movie movie = movieService.getMovieById(request.getMovieId());
 
         return ResponseEntity.ok("Screening for film " + movie.getTitle() + " added successfully!");
+    }
+
+    @GetMapping("/{id}/takenSeats") // TODO: any filters?
+    public List<Seat> getScreening(@PathVariable Integer id) {
+
+        return screeningService.getTakenSeats(id);
     }
 }

@@ -52,6 +52,6 @@ public class TicketController {
 
         String title = screeningService.getMovieTitleByScreeningId(requests.getFirst().getScreeningId());
 
-        return ResponseEntity.ok("Ticket for film " + title + " added successfully!");
+        return ResponseEntity.ok("Ticket(s) for film " + title + " added successfully!");
     }
 }

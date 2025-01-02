@@ -13,19 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 public class TicketService {
     private final TicketRepository ticketRepository;
-    private final UserRepository userRepository;
     private final DiscountRepository discountRepository;
     private final ScreeningRepository screeningRepository;
     private final SeatRepository seatRepository;
     private final StatusRepository statusRepository;
+    private final RoomRepository roomRepository;
 
-    // TODO: there's no validation if seat is taken and room capacity is not exceeded
     public void addTicket(User user, TicketRequest ticketRequest) {
         Discount discount = discountRepository.findByName(ticketRequest.getDiscountName())
                 .orElseThrow(() -> new IllegalArgumentException("Discount not found"));
-
-        Seat seat = seatRepository.findById(ticketRequest.getSeatId())
-                .orElseThrow(() -> new IllegalArgumentException("Seat not found"));
 
         Status status = statusRepository.findByName("Pending")
                 .orElseThrow(() -> new IllegalArgumentException("Status not found"));
@@ -33,8 +29,18 @@ public class TicketService {
         Screening screening = screeningRepository.findById(ticketRequest.getScreeningId())
                 .orElseThrow(() -> new IllegalArgumentException("Screening not found"));
 
+        Seat seat = seatRepository.findById(ticketRequest.getSeatId())
+                .orElseThrow(() -> new IllegalArgumentException("Seat not found"));
+
+        List<Seat> seats = roomRepository.getRoomSeats(screening.getRoom().getRoomId());
+        if(!seats.contains(seat)) throw new IllegalArgumentException("Seat is in different room");
+
         if (screening.getStartDate().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Screening already started");
+        }
+
+        if (ticketRepository.existsByScreeningAndSeat(screening, seat)) {
+            throw new IllegalArgumentException("Seat already taken");
         }
 
         Ticket ticket = Ticket.builder()
@@ -46,7 +52,6 @@ public class TicketService {
                 .reservationDate(LocalDateTime.now())
                 .build();
 
-        // TODO: any error handling?
         ticketRepository.save(ticket);
     }
 
