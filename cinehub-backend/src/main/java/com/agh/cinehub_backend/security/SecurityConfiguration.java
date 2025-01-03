@@ -50,9 +50,9 @@ public class SecurityConfiguration{
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
-                    .loginProcessingUrl("/login") // Endpoint do logowania
-                    .successForwardUrl("/login-success") // Zamiast przekierowania, wywołuje endpoint
-                    .failureForwardUrl("/login-failure") // Wywołuje endpoint dla błędów logowania
+                    .loginProcessingUrl("/login")
+                    .successForwardUrl("/login-success")
+                    .failureForwardUrl("/login-failure")
                     .permitAll()
                 )
                 .logout(logout -> logout
@@ -67,7 +67,15 @@ public class SecurityConfiguration{
                 .sessionManagement(session -> session
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(true)
-                );
+                )
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, ex) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            response.getWriter().write("{\"message\": \"Please sign in\"}");
+                        })
+                );;
         return http.build();
     }
 
@@ -86,7 +94,7 @@ public class SecurityConfiguration{
     UrlBasedCorsConfigurationSource apiConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

@@ -14,18 +14,24 @@ export default function Navbar() {
           Menu 1
           <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
         </p>
-        <p className="relative group">
-          Menu 2
-          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-        </p>
-        <p className="relative group">
-          Menu 3
-          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-        </p>
-        <p className="relative group">
-          Menu 4
-          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-        </p>
+        <Link href="/auth/login">
+          <p className="relative group">
+            Login
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+          </p>
+        </Link>
+        <Link href="/auth/register">
+          <p className="relative group">
+            Register
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+          </p>
+        </Link>
+        <Link href="/auth/logout">
+          <p className="relative group">
+            Logout
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+          </p>
+        </Link>
         {/*<span className="material-icons mr-8 cursor-pointer">*/}
         {/*  <p className="text-4xl">search</p>*/}
         {/*</span>*/}

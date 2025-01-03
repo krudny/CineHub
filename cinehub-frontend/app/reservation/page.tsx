@@ -51,21 +51,45 @@ export default function Reservation() {
   const pickSeatAction = (seat: Seat) => {
     if (takenSeats.includes(seat.seatId)) return;
 
-    if (selectedSeats.some(s => s.seatId === seat.seatId)) {
+    if (selectedSeats.some((s) => s.seatId === seat.seatId)) {
       setSelectedSeats(selectedSeats.filter((seat) => seat != seat));
     } else {
       setSelectedSeats([...selectedSeats, seat]);
     }
   };
 
-  const handleSeatsReservation = () => {
+  const handleSeatsReservation = async () => {
     if (reservation == null) return;
-    sessionStorage.setItem(
-      "reservation",
-      JSON.stringify({ ...reservation, selectedSeats: selectedSeats })
-    );
+    const tickets: { seatId: number; screeningId: number }[] = [];
+    selectedSeats.forEach((seat) => {
+      tickets.push({
+        seatId: seat.seatId,
+        screeningId: reservation.screeningId,
+      });
+    });
 
-    router.push("/reservationConfirmation");
+    const res = await fetch(`http://localhost:8080/tickets`, {
+      method: "post",
+      body: JSON.stringify(tickets),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    
+    console.log(res.ok);
+    console.log(data);
+
+    if(res.ok){
+      sessionStorage.setItem(
+        "reservation",
+        JSON.stringify({ ...reservation, tickets: data })
+      );
+      router.push("/reservationConfirmation");
+    }else{
+      window.alert("Sign in to continue")
+    }
   };
 
   if (!reservation) {
@@ -120,7 +144,7 @@ export default function Reservation() {
               : "bg-neutral-700"
           } rounded-3xl transition duration-200 ease-in-out`}
         >
-          <p className="text-zinc-900 font-bold text-md lg:text-lg">Next</p>
+          <p className="text-zinc-900 font-bold text-md lg:text-lg">Reserve</p>
         </button>
       </div>
     </div>

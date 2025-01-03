@@ -1,13 +1,14 @@
 package com.agh.cinehub_backend.model;
 
-public enum Statuses {
-    PENDING("Pending"),
-    PAYED("Payed"),
-    CANCELED("Canceled");
+public enum Discounts {
+    STANDARD("Standard"),
+    STUDENT("Student"),
+    CHILD("Child"),
+    SENIOR("Senior");
 
     private final String name;
 
-    Statuses(String name) {
+    Discounts(String name) {
         this.name = name;
     }
 

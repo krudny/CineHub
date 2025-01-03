@@ -20,50 +20,58 @@ export default function Reservation() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
   useEffect(() => {
-    const storedReservation = sessionStorage.getItem("reservation");
-    if (storedReservation) {
-      setReservation(JSON.parse(storedReservation));
+    async function fetchDiscounts() {
+      const res = await fetch(`http://localhost:8080/discounts`);
+      const data = await res.json();
+
+      setDiscounts(data);
     }
+    fetchDiscounts();
+
+    const storedReservation = sessionStorage.getItem("reservation");
+
+    if (!storedReservation) return;
+    const reservationData = JSON.parse(storedReservation);
+    setReservation(reservationData);
+    setTickets(reservationData.tickets);
   }, []);
 
-  useEffect(() => {
-    async function fetchDiscountNames() {
-      if (reservation?.room.roomId) {
-        const res = await fetch(`http://localhost:8080/discounts`);
-        const data = await res.json();
-
-        setDiscounts(data);
-
-        const newTickets: Ticket[] = [];
-        reservation.selectedSeats.forEach((seat) => {
-          newTickets.push({
-            seatId: seat.seatId,
-            seatNumber: seat.seatNumber,
-            screeningId: reservation.screeningId,
-            discountName: data[0].name,
-            basePrice: reservation.price,
-            discountValue: data[0].value,
-          });
-        });
-        setTickets([...tickets, ...newTickets]);
-      }
-    }
-    if (reservation) {
-      fetchDiscountNames();
-    }
-  }, [reservation]);
-
-  const handleConfirmation = async () => {
-    const res = await fetch(`http://localhost:8080/tickets`, {
-      method: "post",
+  const handlePay = async () => {
+    const res = await fetch(`http://localhost:8080/tickets/pay`, {
+      method: "put",
       body: JSON.stringify(tickets),
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const data = await res.text();
+    const data = await res.json();
     console.log(data);
+
+    if(res.ok){
+      window.alert("Payed for tickets")
+    }else{
+      window.alert("Sign in to continue")
+    }
+  };
+
+  const handleCancel = async () => {
+    const res = await fetch(`http://localhost:8080/tickets/cancel`, {
+      method: "put",
+      body: JSON.stringify(tickets),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+    
+    if(res.ok){
+      window.alert("Canceled tickets")
+    }else{
+      window.alert("Sign in to continue")
+    }
   };
 
   const handleDiscountChange = (
@@ -160,15 +168,26 @@ export default function Reservation() {
           )}{" "}
           PLN
         </div>
-        <button
-          onClick={handleConfirmation}
-          disabled={false}
-          className={`flex w-fit mb-10 justify-center items-center px-4 py-3 text-md ${
-            true ? "bg-orange-500 hover:bg-orange-600" : "bg-neutral-700"
-          } rounded-3xl transition duration-200 ease-in-out`}
-        >
-          <p className="text-zinc-900 font-bold text-md lg:text-lg">Confirm</p>
-        </button>
+        <div className="flex">
+          <button
+            onClick={handlePay}
+            disabled={false}
+            className={`flex w-fit mb-10 justify-center items-center px-6 py-3 text-md mx-4 ${
+              true ? "bg-orange-500 hover:bg-orange-600" : "bg-neutral-700"
+            } rounded-3xl transition duration-200 ease-in-out`}
+          >
+            <p className="text-zinc-900 font-bold text-md lg:text-lg">Pay</p>
+          </button>
+          <button
+            onClick={handleCancel}
+            disabled={false}
+            className={`flex w-fit mb-10 justify-center items-center px-6 py-3 text-md mx-4 ${
+              true ? "bg-red-500 hover:bg-red-600" : "bg-neutral-700"
+            } rounded-3xl transition duration-200 ease-in-out`}
+          >
+            <p className="text-zinc-900 font-bold text-md lg:text-lg">Cancel</p>
+          </button>
+        </div>
       </div>
     </div>
   );

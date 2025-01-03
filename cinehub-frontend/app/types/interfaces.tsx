@@ -69,6 +69,7 @@ export interface Seat {
 }
 
 export interface Ticket {
+  ticketId: number;
   seatId: number;
   seatNumber: number;
   discountName: string;

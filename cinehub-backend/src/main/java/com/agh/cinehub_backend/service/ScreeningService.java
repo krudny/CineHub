@@ -48,16 +48,14 @@ public class ScreeningService {
                 .orElseThrow(() -> new IllegalArgumentException("Screening not found"));
     }
 
-    public String getMovieTitleByScreeningId(@NotBlank(message = "ScreeningId cannot be empty") Integer screeningId) {
-        Screening screening = getScreeningById(screeningId);
-
-        return screening.getMovie().getTitle();
-    }
-
     public List<Seat> getTakenSeats(Integer screeningId) {
         Screening screening = getScreeningById(screeningId);
-        List<Ticket> tickets = ticketRepository.findAllByScreening(screening);
 
-        return tickets.stream().map(Ticket::getSeat).toList();
+        return ticketRepository
+                .findAllByScreening(screening)
+                .stream()
+                .filter(ticket -> !Statuses.CANCELED.getName().equals(ticket.getStatus().getName()))
+                .map(Ticket::getSeat)
+                .toList();
     }
 }

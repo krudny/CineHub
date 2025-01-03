@@ -15,10 +15,6 @@ public class TicketRequest {
     @NotNull(message = "ScreeningId cannot be empty")
     private Integer screeningId;
 
-    @NotBlank(message = "Discount name cannot be empty")
-    private String discountName;
-
-    // TODO: Probably that should be changed
     @NotNull(message = "SeatId cannot be empty")
     private Integer seatId;
 }
