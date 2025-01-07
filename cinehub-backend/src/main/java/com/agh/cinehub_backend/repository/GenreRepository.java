@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface GenreRepository extends JpaRepository<Genre, Integer> {
-
-    @Query("SELECT g from Genre g WHERE g.genre = :name")
     Optional<Genre> findByName(String name);
+    boolean existsById(Integer id);
+    @Query("SELECT g.name FROM Genre g WHERE g.genreId = :id")
+    Optional<String> findNameById(Integer id);
 }

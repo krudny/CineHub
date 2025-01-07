@@ -31,9 +31,26 @@ public class ScreeningConfigurator {
     @PostConstruct
     public void init() {
         if (screeningRepository.count() == 0) {
-            createMultipleScreenings("Inception", "101", 20, LocalDate.of(2025, 5, 12));
-            createMultipleScreenings("Inception", "101", 20, LocalDate.of(2025, 5, 13));
-            createMultipleScreenings("Inception", "101", 20, LocalDate.of(2025, 5, 14));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 23));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 24));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 25));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 26));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 27));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 28));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 29));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 30));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2024, 12, 31));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 1));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 2));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 3));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 4));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 5));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 6));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 7));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 8));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 9));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 10));
+            createMultipleScreenings("Carry-On", "101", 20, LocalDate.of(2025, 1, 11));
         }
     }
 

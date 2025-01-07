@@ -14,10 +14,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "genres")
 public class Genre {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer genreId;
 
     @Column(nullable = false, length = 30)
-    private String genre;
+    private String name;
 
 }

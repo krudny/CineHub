@@ -39,6 +39,7 @@ public class Ticket {
     @JoinColumn(name = "seat_id", nullable = false)
     private Seat seat;
 
+    @Column(nullable = false)
     private LocalDateTime reservationDate;
 }
 

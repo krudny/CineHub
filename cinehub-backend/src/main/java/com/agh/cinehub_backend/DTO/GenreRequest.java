@@ -6,13 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GenreRequest{
+public class GenreRequest {
     @NotBlank(message = "Genre name cannot be empty")
-    private String genre;
+    private String name;
 }
 

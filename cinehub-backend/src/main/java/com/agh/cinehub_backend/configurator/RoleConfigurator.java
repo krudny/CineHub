@@ -19,6 +19,7 @@ public class RoleConfigurator {
         if (roleRepository.count() == 0) {
             createRole("USER");
             createRole("ADMIN");
+            createRole("EMPLOYEE");
         }
     }
 

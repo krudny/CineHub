@@ -25,10 +25,10 @@ public class Movie {
     @JoinColumn(name = "genre_id", nullable = false)
     private Genre genre;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 60)
     private String title;
 
-    @Column(length = 250)
+    @Column(length = 800)
     private String description;
 
     private Integer duration;
@@ -40,5 +40,9 @@ public class Movie {
     private String director;
 
     private LocalDate publishDate;
+
+    private String bg_img;
+
+    private String thumbnail_img;
 
 }

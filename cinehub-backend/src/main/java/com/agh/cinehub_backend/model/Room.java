@@ -1,7 +1,10 @@
 package com.agh.cinehub_backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -14,8 +17,8 @@ public class Room {
     @Column(nullable = false, length = 30, unique = true)
     private String name;
 
-    private Integer numberOfSeats;
-
-    private Integer numberOfRows;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Seat> seats;
 }
 
