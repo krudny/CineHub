@@ -22,17 +22,17 @@ export default function Screening({ id }: { id: number }) {
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data } = useSWR<Screening[]>(
     `http://localhost:8080/screenings?movieId=${id}`,
-    fetcher
+    fetcher,
   );
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedScreening, setSelectedScreening] = useState<Screening | null>(
-    null
+    null,
   );
   const router = useRouter();
 
   const uniqueDates = data
     ? Array.from(
-        new Set(data.map((screening) => screening.startDate.split("T")[0]))
+        new Set(data.map((screening) => screening.startDate.split("T")[0])),
       ).sort()
     : [];
 
@@ -78,7 +78,7 @@ export default function Screening({ id }: { id: number }) {
             <div className="w-64">
               <Select
                 value={dateOptions.find(
-                  (option) => option.value === selectedDate
+                  (option) => option.value === selectedDate,
                 )}
                 onChange={(selectedOption) =>
                   setSelectedDate(selectedOption?.value || "")
@@ -149,7 +149,7 @@ export default function Screening({ id }: { id: number }) {
             <div className="flex items-center gap-x-4">
               {data
                 ?.filter((screening) =>
-                  screening.startDate.startsWith(selectedDate)
+                  screening.startDate.startsWith(selectedDate),
                 )
                 .map((screening) => (
                   <p
