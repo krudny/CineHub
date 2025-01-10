@@ -1,3 +1,5 @@
+import {MovieResponse} from "@/app/types/interfaces";
+
 export function convertToHours(minutes: number) {
   const hours = Math.floor(minutes / 60);
   const minutes_left = minutes % 60;
@@ -14,4 +16,9 @@ export function formatDate(isoDate: string) {
     month: "2-digit",
   };
   return date.toLocaleDateString("en-US", options);
+}
+
+export async function getTrendingFilms(): Promise<MovieResponse[]> {
+  const response: Response = await fetch("http://localhost:8080/movies/trending", {next: {revalidate: 30}})
+  return await response.json();
 }

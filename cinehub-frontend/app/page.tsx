@@ -1,16 +1,11 @@
 import Hero from "@/app/components/Hero";
 import Navbar from "@/app/components/Navbar";
 import TrendingFilms from "@/app/components/TrendingFilms";
-import { MovieResponse } from "@/app/types/interfaces";
-
-export async function getTrendingFilms(): Promise<MovieResponse[]> {
-  const response: Response = await fetch("http://localhost:8080/movies/trending", { next: { revalidate: 30 }})
-  return await response.json();
-}
+import {MovieResponse} from "@/app/types/interfaces";
+import {getTrendingFilms} from "@/app/utils/functions";
 
 export default async function Home() {
   const trending: MovieResponse[] = await getTrendingFilms();
-  const randomHero = Math.floor(Math.random() * trending.length)
 
   return (
       <div className="relative w-full select-none">
@@ -18,7 +13,7 @@ export default async function Home() {
           <Navbar />
         </div>
 
-        <Hero {...trending[randomHero]} />
+        <Hero {...trending[0]} />
 
         <TrendingFilms />
       </div>
