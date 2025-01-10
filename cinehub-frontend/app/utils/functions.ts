@@ -1,4 +1,6 @@
 import {MovieResponse} from "@/app/types/interfaces";
+import {toast} from "react-hot-toast";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export function convertToHours(minutes: number) {
   const hours = Math.floor(minutes / 60);
@@ -21,4 +23,17 @@ export function formatDate(isoDate: string) {
 export async function getTrendingFilms(): Promise<MovieResponse[]> {
   const response: Response = await fetch("http://localhost:8080/movies/trending", {next: {revalidate: 30}})
   return await response.json();
+}
+
+export async function logout(router: AppRouterInstance) {
+  const res = await fetch(`http://localhost:8080/logout`, {
+    credentials: "include",
+  });
+
+  if (res.ok) {
+    toast.success("Logout successful!");
+    router.push("/");
+  } else {
+    toast.error("Cannot logout!");
+  }
 }

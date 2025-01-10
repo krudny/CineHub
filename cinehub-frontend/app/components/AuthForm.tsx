@@ -3,6 +3,8 @@ import { AuthFormProps, AuthProps } from "@/app/types/interfaces";
 import { validationRules } from "@/app/types/validationRules";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
+import {useRouter} from "next/navigation";
+import {toast, Toaster} from "react-hot-toast";
 
 
 type FormValues = {
@@ -25,6 +27,8 @@ export default function AuthForm({
     mode: "onBlur",
   });
 
+  const router = useRouter();
+
   async function handleLogin(data: Record<string, string>) {
     const formData = new FormData();
     formData.append("username", data["email"]);
@@ -37,14 +41,14 @@ export default function AuthForm({
     });
 
     if (res.ok) {
-      document.location = "/";
+      router.push("/");
+      toast.success("Login successful!");
     } else {
-      window.alert("zle passy");
+      toast.error("Invalid credentials!");
     }
   }
 
   async function handleRegister(data: Record<string, string>) {
-    console.log(data);
     const regData = {
       firstname: data["name"].split(" ")[0],
       lastname: data["name"].split(" ")[1],
@@ -61,9 +65,10 @@ export default function AuthForm({
     });
 
     if (res.ok) {
-      document.location = "/home";
+      router.push("/");
+      toast.success("Register successful!");
     } else {
-      window.alert("something is no yes");
+      toast.error("Cannot register!");
     }
   }
 
@@ -74,6 +79,7 @@ export default function AuthForm({
 
   return (
       <>
+        <Toaster />
         <div
             className="text-neutral-100 mx-auto flex flex-col justify-center items-center w-full p-10 md:w-3/5 max-w-3xl h-full mt-auto ">
           <div className="flex flex-col justify-center items-center text-center ">
