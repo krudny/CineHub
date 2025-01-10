@@ -5,6 +5,7 @@ import SeatGenerator from "@/app/components/SeatGenerator";
 import { Room, Seat, SeatProps } from "@/app/types/interfaces";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Reservation() {
   const [reservation, setReservation] = useState<{
@@ -30,12 +31,12 @@ export default function Reservation() {
     async function fetchSeats() {
       if (reservation?.room.roomId) {
         const res = await fetch(
-          `http://localhost:8080/room/seats/${reservation.room.roomId}`
+          `http://localhost:8080/room/seats/${reservation.room.roomId}`,
         );
         const data = await res.json();
 
         const res1 = await fetch(
-          `http://localhost:8080/screenings/${reservation.screeningId}/takenSeats`
+          `http://localhost:8080/screenings/${reservation.screeningId}/takenSeats`,
         );
         const data1: Seat[] = await res1.json();
 
@@ -69,26 +70,27 @@ export default function Reservation() {
     });
 
     const res = await fetch(`http://localhost:8080/tickets`, {
-      method: "post",
+      method: "POST",
       body: JSON.stringify(tickets),
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const data = await res.json();
-    
-    console.log(res.ok);
-    console.log(data);
 
-    if(res.ok){
+    if (res.ok) {
+      const data = await res.json();
       sessionStorage.setItem(
         "reservation",
-        JSON.stringify({ ...reservation, tickets: data })
+        JSON.stringify({ ...reservation, tickets: data }),
       );
       router.push("/reservationConfirmation");
-    }else{
-      window.alert("Sign in to continue")
+    } else if (res.status === 401) {
+      toast.error("You are not logged in!");
+      router.push("/auth/login");
+    } else {
+      const errorMessage = await res.text();
+      toast.error(`Reservation failed: \n ${errorMessage}`);
     }
   };
 
@@ -112,6 +114,7 @@ export default function Reservation() {
 
   return (
     <div className="bg-zinc-900 max-w-screen min-h-screen text-neutral-100">
+      <Toaster />
       <Navbar />
       <div className="container max-w-6xl mx-auto flex justify-center items-center flex-col">
         <div className="mt-10 flex flex-col items-center gap-y-4">

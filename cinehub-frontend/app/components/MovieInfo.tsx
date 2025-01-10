@@ -1,12 +1,13 @@
 import Image from "next/image";
-import {convertToHours, getTrendingFilms} from "@/app/utils/functions";
+import { convertToHours, getTrendingFilms } from "@/app/utils/functions";
 import { MovieResponse } from "@/app/types/interfaces";
 import Screening from "@/app/components/Screening";
 
-
-export default async function MovieInfo({ id }: { id: string}) {
+export default async function MovieInfo({ id }: { id: string }) {
   const trending: MovieResponse[] = await getTrendingFilms();
-  const movie: MovieResponse | undefined = trending.find((item) => item.movieId === Number(id));
+  const movie: MovieResponse | undefined = trending.find(
+    (item) => item.movieId === Number(id),
+  );
 
   if (!movie) {
     throw new Error("No movie found");
