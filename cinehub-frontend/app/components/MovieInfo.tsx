@@ -2,7 +2,7 @@ import Image from "next/image";
 import { convertToHours } from "@/app/utils/functions";
 import { MovieResponse } from "@/app/types/interfaces";
 import Screening from "@/app/components/Screening";
-import {getTrendingFilms} from "@/app/home/page";
+import {getTrendingFilms} from "@/app/page";
 
 
 export default async function MovieInfo({ id }: { id: string}) {

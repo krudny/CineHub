@@ -5,7 +5,7 @@ async function logOut() {
     credentials: "include",
   });
   if (res.ok) {
-    document.location = "/home";
+    document.location = "/";
   } else {
     window.alert("error");
   }

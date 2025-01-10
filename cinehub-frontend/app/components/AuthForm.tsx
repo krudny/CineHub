@@ -36,7 +36,7 @@ export default function AuthForm({
     });
 
     if (res.ok) {
-      document.location = "/home";
+      document.location = "/";
     } else {
       window.alert("zle passy");
     }

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MovieResponse } from "@/app/types/interfaces";
-import {getTrendingFilms} from "@/app/home/page";
+import {getTrendingFilms} from "@/app/page";
+
 
 
 export default async function TrendingFilms() {

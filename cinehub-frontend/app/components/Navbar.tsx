@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Navbar() {
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-center text-neutral-100 px-16 ">
-      <Link href="/home">
+      <Link href="/">
         <div className="flex py-6 font-oswald text-2xl md:text-4xl">
           <p className="p-1 md:py-1.5">Cine</p>
           <p className="bg-orange-500 rounded-lg md:mx-1 p-1 md:p-1.5">Hub</p>
@@ -32,9 +32,6 @@ export default function Navbar() {
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
           </p>
         </Link>
-        {/*<span className="material-icons mr-8 cursor-pointer">*/}
-        {/*  <p className="text-4xl">search</p>*/}
-        {/*</span>*/}
       </div>
     </div>
   );
