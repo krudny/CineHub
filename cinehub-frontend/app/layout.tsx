@@ -23,7 +23,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-neutral-100">{children}</body>
+      <body className="bg-neutral-100">
+        {children}
+      </body>
     </html>
   );
 }

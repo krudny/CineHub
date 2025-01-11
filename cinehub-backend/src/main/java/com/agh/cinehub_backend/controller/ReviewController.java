@@ -9,6 +9,7 @@ import com.agh.cinehub_backend.service.ReviewService;
 import com.agh.cinehub_backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,5 +48,11 @@ public class ReviewController {
         reviewService.addReview(user, request);
 
         return ResponseEntity.ok("Review for film " + movie.getTitle() + " added successfully!");
+    }
+
+    @GetMapping("/rating/{movieId}")
+    public ResponseEntity<Double> getRatingForFilm(@PathVariable Integer movieId) {
+        Double result = reviewService.getRatingForFilm(movieId);
+        return ResponseEntity.ok(result);
     }
 }

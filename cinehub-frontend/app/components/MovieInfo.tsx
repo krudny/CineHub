@@ -3,8 +3,10 @@ import { convertToHours, getTrendingFilms } from "@/app/utils/functions";
 import { MovieResponse } from "@/app/types/interfaces";
 import Screening from "@/app/components/Screening";
 
+
 export default async function MovieInfo({ id }: { id: string }) {
   const trending: MovieResponse[] = await getTrendingFilms();
+  const rating = await fetch(`http://localhost:8080/reviews/rating/${id}`).then(res => res.ok ? res.json() : "--")
   const movie: MovieResponse | undefined = trending.find(
     (item) => item.movieId === Number(id),
   );
@@ -39,7 +41,7 @@ export default async function MovieInfo({ id }: { id: string }) {
 
           <div className="mt-4 flex gap-x-4">
             <div className="bg-zinc-800 rounded-xl px-4 py-2 w-fit">
-              Rating: TODO
+              Rating: {rating} / 5
             </div>
             <div className="bg-zinc-800 rounded-xl px-4 py-2 w-fit">
               Duration: {convertToHours(movie.duration)}

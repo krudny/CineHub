@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import useSWR from "swr";
+import {fetcher} from "@/app/utils/fetcher";
 
 interface Screening {
   screeningId: number;
@@ -19,20 +20,16 @@ interface Screening {
 }
 
 export default function Screening({ id }: { id: number }) {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data } = useSWR<Screening[]>(
-    `http://localhost:8080/screenings?movieId=${id}`,
-    fetcher,
-  );
+  const { data: screeningResponse } = useSWR<Screening[]>(`http://localhost:8080/screenings?movieId=${id}`, fetcher);
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedScreening, setSelectedScreening] = useState<Screening | null>(
     null,
   );
   const router = useRouter();
 
-  const uniqueDates = data
+  const uniqueDates = screeningResponse
     ? Array.from(
-        new Set(data.map((screening) => screening.startDate.split("T")[0])),
+        new Set(screeningResponse .map((screening) => screening.startDate.split("T")[0])),
       ).sort()
     : [];
 
@@ -48,7 +45,7 @@ export default function Screening({ id }: { id: number }) {
   }, [uniqueDates, selectedDate]);
 
   const handleTimeClick = (screeningId: number) => {
-    const screening = data?.find((s) => s.screeningId === screeningId) || null;
+    const screening = screeningResponse?.find((s) => s.screeningId === screeningId) || null;
     setSelectedScreening(screening);
   };
 
@@ -147,7 +144,7 @@ export default function Screening({ id }: { id: number }) {
           <div className="flex items-center gap-x-4 mt-2">
             <p className="font-bold">Time:</p>
             <div className="flex items-center gap-x-4">
-              {data
+              {screeningResponse
                 ?.filter((screening) =>
                   screening.startDate.startsWith(selectedDate),
                 )

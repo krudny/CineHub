@@ -8,9 +8,11 @@ import com.agh.cinehub_backend.repository.MovieRepository;
 import com.agh.cinehub_backend.repository.ReviewRepository;
 import com.agh.cinehub_backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +23,7 @@ public class ReviewService {
 
     public void addReview(User user, ReviewRequest request) {
         Movie movie = movieRepository.findById(request.getMovieId())
-                .orElseThrow(() -> new RuntimeException("Movie not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Movie not found"));
 
         if(reviewRepository.findByUserAndMovie(user, movie).isPresent()) {
             throw new IllegalArgumentException("User already reviewed this movie.");
@@ -52,5 +54,15 @@ public class ReviewService {
 
     public List<Review> getReviewsByUser(User user) {
         return  reviewRepository.findAllByUser(user);
+    }
+
+    public Double getRatingForFilm(Integer movieId) {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
+        List<Review> reviews = this.getReviewsByMovie(movie);
+
+        return reviews.stream()
+                .mapToDouble(Review::getScore)
+                .average()
+                .orElseThrow(() -> new IllegalArgumentException("No reviews found"));
     }
 }
