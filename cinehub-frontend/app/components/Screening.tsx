@@ -28,10 +28,16 @@ export default function Screening({ id }: { id: number }) {
   const router = useRouter();
 
   const uniqueDates = screeningResponse
-    ? Array.from(
-        new Set(screeningResponse .map((screening) => screening.startDate.split("T")[0])),
-      ).sort()
-    : [];
+      ? Array.from(
+          new Set(
+              screeningResponse
+                  .filter((screening) => new Date(screening.startDate) > new Date())
+                  .map((screening) => screening.startDate.split("T")[0])
+          )
+      ).sort() : [];
+
+  console.log(uniqueDates);
+
 
   const dateOptions = uniqueDates.map((date) => ({
     value: date,
@@ -145,9 +151,7 @@ export default function Screening({ id }: { id: number }) {
             <p className="font-bold">Time:</p>
             <div className="flex items-center gap-x-4">
               {screeningResponse
-                ?.filter((screening) =>
-                  screening.startDate.startsWith(selectedDate),
-                )
+                ?.filter((screening) => screening.startDate.startsWith(selectedDate) && new Date(screening.startDate) > new Date())
                 .map((screening) => (
                   <p
                     key={screening.screeningId}
