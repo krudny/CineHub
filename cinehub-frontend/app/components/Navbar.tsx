@@ -1,11 +1,51 @@
 "use client";
 
+import { useEffect, useState } from "react"; // <-- Add this import
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { logout } from "@/app/utils/functions";
 
 export default function Navbar() {
   const router = useRouter();
+  
+  // Add state to track authentication
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/session/check-auth", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to fetch");
+        }
+  
+        const data = await response.json();
+        console.log("success");
+        console.log(response);
+        setIsAuthenticated(data.isAuthenticated);
+      } catch (error) {
+        console.error("Error during authentication check:", error);
+      }
+    };
+  
+    checkAuth();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logout(router);
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.error("Błąd podczas wylogowywania:", error);
+    }
+  };
 
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-center text-neutral-100 px-16">
@@ -20,25 +60,31 @@ export default function Navbar() {
           Menu 1
           <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
         </p>
-        <Link href="/auth/login">
-          <p className="relative group">
-            Login
+        {/* Conditionally render links based on authentication state */}
+        {isAuthenticated ? (
+          <p
+            className="relative group cursor-pointer"
+            onClick={handleLogout}
+          >
+            Logout
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
           </p>
-        </Link>
-        <Link href="/auth/register">
-          <p className="relative group">
-            Register
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-          </p>
-        </Link>
-        <p
-          className="relative group cursor-pointer"
-          onClick={() => logout(router)}
-        >
-          Logout
-          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-        </p>
+        ) : (
+          <>
+            <Link href="/auth/login">
+              <p className="relative group">
+                Login
+                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+              </p>
+            </Link>
+            <Link href="/auth/register">
+              <p className="relative group">
+                Register
+                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+              </p>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
