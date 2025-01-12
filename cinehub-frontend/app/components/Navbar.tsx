@@ -23,7 +23,7 @@ export default function Navbar() {
         });
   
         if (!response.ok) {
-          throw new Error("Failed to fetch");
+          return
         }
   
         const data = await response.json();
