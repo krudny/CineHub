@@ -1,50 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react"; // <-- Add this import
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { logout } from "@/app/utils/functions";
+import { checkAuth } from "../auth/roleVerificators/checkAuth";
+import { checkAdminPriviliges } from "../auth/roleVerificators/hasAdminPrivileges";
+import { checkEmployeePriviliges } from "../auth/roleVerificators/hasEmployeePrivileges";
 
 export default function Navbar() {
   const router = useRouter();
   
-  // Add state to track authentication
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const [isEmployee, setIsEmployee] = useState(false);
+
+
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/session/check-auth", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        });
-  
-        if (!response.ok) {
-          return
-        }
-  
-        const data = await response.json();
-        console.log("success");
-        console.log(response);
-        setIsAuthenticated(data.isAuthenticated);
-      } catch (error) {
-        console.error("Error during authentication check:", error);
-      }
-    };
-  
-    checkAuth();
+    checkAdminPriviliges(setIsAdmin);
+  }, []);
+
+  useEffect(() => {
+   checkAuth(setIsAuthenticated);
+  }, []);
+
+  useEffect(() => {
+    checkEmployeePriviliges(setIsEmployee);
   }, []);
 
   const handleLogout = async () => {
-    try {
       await logout(router);
       setIsAuthenticated(false);
-    } catch (error) {
-      console.error("Błąd podczas wylogowywania:", error);
-    }
+      setIsAdmin(false);
+      setIsEmployee(false);
   };
 
   return (
@@ -56,11 +47,19 @@ export default function Navbar() {
         </div>
       </Link>
       <div className="flex items-center font-oswald text-md md:text-2xl gap-x-4 sm:gap-x-10">
+        {isAdmin && (
         <p className="relative group">
-          Menu 1
+          Admin menu
           <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
         </p>
-        {/* Conditionally render links based on authentication state */}
+        )}
+
+      {isEmployee && (
+        <p className="relative group">
+          Employee menu
+          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+        </p>
+        )}
         {isAuthenticated ? (
           <p
             className="relative group cursor-pointer"

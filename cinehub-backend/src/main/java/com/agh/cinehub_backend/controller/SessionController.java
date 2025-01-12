@@ -21,4 +21,21 @@ public class SessionController {
         return ResponseEntity.status(200).body(response);
     }
 
+    @GetMapping("/check-employee-privileges")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    public ResponseEntity<?> hasEmployeePrivileges(){
+        Map<String, Object> response = new HashMap<>();
+        response.put("isAuthenticated", true);
+        return ResponseEntity.status(200).body(response);
+    }
+
+    @GetMapping("/check-admin-privileges")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<?> hasAdminPrivileges(){
+        Map<String, Object> response = new HashMap<>();
+        response.put("isAuthenticated", true);
+        return ResponseEntity.status(200).body(response);
+    }
+
+
 }
