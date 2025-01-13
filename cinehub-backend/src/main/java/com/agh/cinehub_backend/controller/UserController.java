@@ -12,10 +12,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -54,5 +59,18 @@ public class UserController {
     @PostMapping("/login-failure")
     public ResponseEntity<String> loginFailure() {
         return ResponseEntity.badRequest().body("nie ok");
+    }
+
+    @GetMapping("/verifySession")
+    public ResponseEntity<String> verifySession() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null) {
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            String role = authorities.iterator().next().getAuthority();
+            return ResponseEntity.ok(role);
+        }
+
+        return ResponseEntity.internalServerError().body("Authentication failed");
     }
 }

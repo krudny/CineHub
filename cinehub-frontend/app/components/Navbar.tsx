@@ -1,42 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { getRole, isAuthenticated, logout } from "@/app/utils/functions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { logout } from "@/app/utils/functions";
-import { checkAuth } from "../auth/roleVerificators/checkAuth";
-import { checkAdminPriviliges } from "../auth/roleVerificators/hasAdminPrivileges";
-import { checkEmployeePriviliges } from "../auth/roleVerificators/hasEmployeePrivileges";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const router = useRouter();
-  
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  const [isEmployee, setIsEmployee] = useState(false);
-
-
-  useEffect(() => {
-    checkAdminPriviliges(setIsAdmin);
-  }, []);
-
-  useEffect(() => {
-   checkAuth(setIsAuthenticated);
-  }, []);
-
-  useEffect(() => {
-    checkEmployeePriviliges(setIsEmployee);
-  }, []);
-
-  const handleLogout = async () => {
-      await logout(router);
-      setIsAuthenticated(false);
-      setIsAdmin(false);
-      setIsEmployee(false);
+  const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    await logout(router);
   };
+
+  useEffect(() => {
+    async function fetchUserRole() {
+      const role = await getRole();
+      setUserRole(role);
+      setIsLoading(false);
+    }
+    fetchUserRole();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-center text-neutral-100 px-16">
@@ -46,29 +36,36 @@ export default function Navbar() {
           <p className="bg-orange-500 rounded-lg md:mx-1 p-1 md:p-1.5">Hub</p>
         </div>
       </Link>
+
       <div className="flex items-center font-oswald text-md md:text-2xl gap-x-4 sm:gap-x-10">
-        {isAdmin && (
-        <p className="relative group">
-          Admin menu
-          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-        </p>
+        {isAuthenticated("ADMIN", userRole) && (
+          <Link href="/admin">
+            <p className="relative group">
+              Admin menu
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+            </p>
+          </Link>
         )}
 
-      {isEmployee && (
-        <p className="relative group">
-          Employee menu
-          <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-        </p>
+        {isAuthenticated("EMPLOYEE", userRole) && (
+          <Link href="/employee">
+            <p className="relative group">
+              Employee menu
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+            </p>
+          </Link>
         )}
-        {isAuthenticated ? (
-          <p
-            className="relative group cursor-pointer"
-            onClick={handleLogout}
-          >
-            Logout
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-          </p>
-        ) : (
+
+        {isAuthenticated("USER", userRole) && (
+          <Link href="/logout" onClick={handleLogout}>
+            <p className="relative group cursor-pointer">
+              Logout
+              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+            </p>
+          </Link>
+        )}
+
+        {!userRole && (
           <>
             <Link href="/auth/login">
               <p className="relative group">
@@ -76,6 +73,7 @@ export default function Navbar() {
                 <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
               </p>
             </Link>
+
             <Link href="/auth/register">
               <p className="relative group">
                 Register
