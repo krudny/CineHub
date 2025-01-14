@@ -26,7 +26,7 @@ public class ReviewController {
     private final MovieService movieService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE, USER') or  #movieId != null")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE', 'USER') or  #movieId != null")
     public List<Review> getReviews(@RequestParam(value = "movieId", required = false) Integer movieId) {
         if (movieId != null) {
             Movie movie = movieService.getMovieById(movieId);
@@ -39,7 +39,7 @@ public class ReviewController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE, USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE', 'USER')")
     public ResponseEntity<?> addReview(@Valid @RequestBody ReviewRequest request) {
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserByEmail(userEmail);

@@ -2,7 +2,7 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { isAuthenticatedAsync } from "../utils/functions";
+import { isAuthenticatedAsync } from "../auth/authFunctions";
 
 export function useRequireAuth(router: AppRouterInstance, requiredRole: string = "USER", redirectTo = "/") {
   useEffect(() => {

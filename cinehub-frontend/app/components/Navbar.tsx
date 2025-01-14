@@ -1,6 +1,7 @@
 "use client";
 
-import { getRole, isAuthenticated, logout } from "@/app/utils/functions";
+import { logout } from "@/app/utils/functions";
+import { getRole, isAuthenticated, } from "@/app/auth/authFunctions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

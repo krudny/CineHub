@@ -2,6 +2,7 @@ import Image from "next/image";
 import { convertToHours, getTrendingFilms } from "@/app/utils/functions";
 import { MovieResponse } from "@/app/types/interfaces";
 import Screening from "@/app/components/Screening";
+import Link from "next/link";
 
 
 export default async function MovieInfo({ id }: { id: string }) {
@@ -52,6 +53,9 @@ export default async function MovieInfo({ id }: { id: string }) {
             <div className="bg-zinc-800 rounded-xl px-4 py-2 w-fit">
               {movie.genre.name}
             </div>
+            <Link href={"/addReview?movieId="+movie.movieId} className="bg-orange-500 hover:bg-orange-600 rounded-xl px-4 py-2 w-fit">
+              Add review
+            </Link>
           </div>
 
           <div className="my-4">
