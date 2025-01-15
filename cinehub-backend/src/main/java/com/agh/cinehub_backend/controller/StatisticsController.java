@@ -3,12 +3,11 @@ package com.agh.cinehub_backend.controller;
 import com.agh.cinehub_backend.model.Movie;
 import com.agh.cinehub_backend.service.StatisticsService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/statistics")
@@ -23,7 +22,11 @@ public class StatisticsController {
         if(quantity == null || quantity<1) quantity = 10;
 
         return movies.stream().limit(quantity).toList();
+    }
 
+    @GetMapping("/soldTickets/{movieId}")
+    public Map<LocalDate, Integer> getSoldTicketsStatistics(@PathVariable Integer movieId) {
+        return statisticsService.getSoldTicketsStatistics(movieId);
     }
 
 }

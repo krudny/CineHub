@@ -9,8 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Data
@@ -25,8 +28,26 @@ public class StatisticsService {
     public Map<Movie, Long> getMostPopularMoviesMap(){
         return statisticsStorage.getMostPopularMoviesMap();
     }
+
     public List<Movie> getMostPopularMoviesList(){
         return statisticsStorage.getMostPopularMoviesList();
+    }
+
+    public Map<LocalDate, Integer> getSoldTicketsStatistics(Integer movieId) {
+        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findAll().stream()
+                .filter(ticket -> ticket.getScreening().getMovie().getMovieId().equals(movieId))
+                .collect(Collectors.groupingBy(
+                        ticket -> ticket.getScreening().getStartDate().toLocalDate(),
+                        Collectors.summingInt(ticket -> 1)
+                ));
+
+        LocalDate today = LocalDate.now();
+        return IntStream.rangeClosed(0, 13)
+                .mapToObj(today::minusDays)
+                .collect(Collectors.toMap(
+                        date -> date,
+                        date -> ticketsByDate.getOrDefault(date, 0)
+                ));
     }
 
 }
