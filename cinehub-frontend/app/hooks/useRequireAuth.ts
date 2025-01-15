@@ -10,8 +10,8 @@ export function useRequireAuth(router: AppRouterInstance, requiredRole: string =
       try {
         const isAuthenticated = await isAuthenticatedAsync(requiredRole);
         if (!isAuthenticated) {
-          toast.error("You don't have enough privileges to visit this site!");
           router.push(redirectTo);
+          toast.error("You don't have enough privileges to visit this site!");
         }
       } catch (error) {
         toast.error("Authentication error:" + error);

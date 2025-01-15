@@ -37,6 +37,6 @@ export async function logout(router: AppRouterInstance) {
 }
 
 export async function getMovieDetails(movieId: number): Promise<MovieResponse> {
-  const response: Response = await fetch("http://localhost:8080/movies/"+movieId);
+  const response: Response = await fetch("http://localhost:8080/movies/" + movieId);
   return await response.json();
 }

@@ -9,25 +9,21 @@ import { useEffect, useState } from "react";
 export default function Navbar() {
   const router = useRouter();
   const [userRole, setUserRole] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     await logout(router);
+    setUserRole(null);
   };
 
   useEffect(() => {
     async function fetchUserRole() {
       const role = await getRole();
       setUserRole(role);
-      setIsLoading(false);
     }
     fetchUserRole();
-  }, []);
+  }, [userRole]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-center text-neutral-100 px-16">

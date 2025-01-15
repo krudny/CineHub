@@ -102,7 +102,6 @@ export default function Reservation() {
 
   return (
     <div className="bg-zinc-900 max-w-screen min-h-screen text-neutral-100">
-      <Toaster />
       <Navbar />
       <div className="container max-w-6xl mx-auto flex justify-center items-center flex-col">
         <div className="mt-10 flex flex-col items-center gap-y-4">

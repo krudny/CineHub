@@ -12,6 +12,7 @@ export default async function MovieInfo({ id }: { id: string }) {
     (item) => item.movieId === Number(id),
   );
 
+
   if (!movie) {
     throw new Error("No movie found");
   }
@@ -32,7 +33,7 @@ export default async function MovieInfo({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="w-2/3 p-8 flex flex-col justify-between text-neutral-100 ">
+      <div className="w-3/4 p-8 flex flex-col justify-between text-neutral-100 ">
         <div>
           <h1 className="font-oswald font-bold text-6xl">{movie.title}</h1>
           <div className="flex gap-x-3 my-5 text-lg items-center">
@@ -56,6 +57,11 @@ export default async function MovieInfo({ id }: { id: string }) {
             <Link href={"/addReview?movieId="+movie.movieId} className="bg-orange-500 hover:bg-orange-600 rounded-xl px-4 py-2 w-fit">
               Add review
             </Link>
+
+            <Link href={"/soldTickets?movieId="+movie.movieId} className="bg-orange-500 hover:bg-orange-600 rounded-xl px-4 py-2 w-fit">
+                Get statistics
+            </Link>
+
           </div>
 
           <div className="my-4">

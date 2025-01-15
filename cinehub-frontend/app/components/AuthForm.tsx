@@ -72,7 +72,6 @@ export default function AuthForm({ welcome, greeting, actionText, actionLink, fo
 
   return (
     <>
-      <Toaster />
       <div className="text-neutral-100 mx-auto flex flex-col justify-center items-center w-full p-10 md:w-3/5 max-w-3xl h-full mt-auto ">
         <div className="flex flex-col justify-center items-center text-center ">
           <h1 className="font-bold font-oswald text-3xl md:text-3xl lg:text-5xl">{welcome}</h1>

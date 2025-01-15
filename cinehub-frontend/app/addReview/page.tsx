@@ -1,7 +1,7 @@
 "use client";
 import { redirect, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import Navbar from "../components/Navbar";
 import Loading from "../loading";
 import { MovieResponse } from "../types/interfaces";
@@ -31,9 +31,7 @@ export default function AddReview() {
     setRating(newRating);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     if (rating === 0) {
       toast.error("Select score");
       return;
@@ -53,7 +51,7 @@ export default function AddReview() {
       body: JSON.stringify({ movieId: movieId, score: rating, description: reviewText }),
     });
     const text = await res.text();
-
+    console.log(res)
     if (!res.ok) {
       toast.error("Cannot add review");
     } else {
@@ -74,7 +72,6 @@ export default function AddReview() {
   return (
     <div className="bg-zinc-900 max-w-screen min-h-screen">
       <Navbar />
-      <Toaster />
 
       <div className="container max-w-6xl mx-auto flex justify-center items-center flex-col text-white">
         <div className="mt-10 flex flex-col items-center gap-y-4">
