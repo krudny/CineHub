@@ -19,7 +19,8 @@ export function formatDate(isoDate: string) {
 }
 
 export async function getTrendingFilms(): Promise<MovieResponse[]> {
-  const response: Response = await fetch("http://localhost:8080/movies/trending", { next: { revalidate: 30 } });
+  const response: Response = await fetch("http://localhost:8080/statistics/getMostPopularMoviesEver/20", { next: { revalidate: 30 } });
+  // const response: Response = await fetch("http://localhost:8080/movies/trending", { next: { revalidate: 30 } });
   return await response.json();
 }
 

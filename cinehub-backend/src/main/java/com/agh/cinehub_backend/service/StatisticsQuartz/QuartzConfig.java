@@ -18,7 +18,8 @@ public class QuartzConfig {
     @Bean
     public Trigger statisticsJobTrigger() {
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
-                .withIntervalInHours(1)
+//                .withIntervalInHours(1)
+                .withIntervalInMinutes(1)
                 .repeatForever();
 
         return TriggerBuilder.newTrigger()

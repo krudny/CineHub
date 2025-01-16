@@ -30,12 +30,15 @@ public class StatisticsJob implements Job {
     private void calculateMostPopularMovies(){
         Map<Movie, Long> mostPopularMoviesMap = ticketRepository.findAll().stream()
                 .collect(Collectors.groupingBy(t -> t.getScreening().getMovie(), Collectors.counting()));
+
         statisticsStorage.setMostPopularMoviesMap(mostPopularMoviesMap);
+
         List<Map.Entry<Movie, Long>> sortedEntries = mostPopularMoviesMap.entrySet().stream()
                 .sorted(Map.Entry.<Movie, Long>comparingByValue().reversed())
                 .toList();
 
         List<Movie> sortedMovies = sortedEntries.stream().map(e -> e.getKey()).toList();
+
         statisticsStorage.setMostPopularMoviesList(sortedMovies);
     }
 
