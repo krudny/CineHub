@@ -60,9 +60,13 @@ public class ReviewService {
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new IllegalArgumentException("Movie not found"));
         List<Review> reviews = this.getReviewsByMovie(movie);
 
-        return reviews.stream()
+
+        return Math.round(
+                reviews.stream()
                 .mapToDouble(Review::getScore)
                 .average()
-                .orElseThrow(() -> new IllegalArgumentException("No reviews found"));
+                .orElseThrow(() -> new IllegalArgumentException("No reviews found"))
+                * 100.0) / 100.0;
+
     }
 }
