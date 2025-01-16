@@ -2,7 +2,7 @@ import Image from "next/image";
 import { convertToHours, getTrendingFilms } from "@/app/utils/functions";
 import { MovieResponse } from "@/app/types/interfaces";
 import Screening from "@/app/components/Screening";
-import Link from "next/link";
+
 
 
 export default async function MovieInfo({ id }: { id: string }) {
@@ -18,9 +18,9 @@ export default async function MovieInfo({ id }: { id: string }) {
   }
 
   return (
-    <div className="flex max-w-7xl mx-auto mt-8 select-none ">
-      <div className="w-1/3 h p-8">
-        <div className="h-full relative aspect-[3/4] flex justify-center items-center">
+    <div className="flex max-w-7xl mx-auto mt-8 select-none">
+      <div className="w-1/3 p-8 flex">
+        <div className="h-full relative w-full aspect-[3/4] flex justify-center items-center">
           <Image
             src={movie.thumbnail_img}
             alt="thumbnail"
@@ -33,7 +33,7 @@ export default async function MovieInfo({ id }: { id: string }) {
         </div>
       </div>
 
-      <div className="w-3/4 p-8 flex flex-col justify-between text-neutral-100 ">
+      <div className="w-2/3 p-8 flex flex-col justify-between text-neutral-100">
         <div>
           <h1 className="font-oswald font-bold text-6xl">{movie.title}</h1>
           <div className="flex gap-x-3 my-5 text-lg items-center">
@@ -54,14 +54,6 @@ export default async function MovieInfo({ id }: { id: string }) {
             <div className="bg-zinc-800 rounded-xl px-4 py-2 w-fit">
               {movie.genre.name}
             </div>
-            <Link href={"/addReview?movieId="+movie.movieId} className="bg-orange-500 hover:bg-orange-600 rounded-xl px-4 py-2 w-fit">
-              Add review
-            </Link>
-
-            <Link href={"/soldTickets?movieId="+movie.movieId} className="bg-orange-500 hover:bg-orange-600 rounded-xl px-4 py-2 w-fit">
-                Get statistics
-            </Link>
-
           </div>
 
           <div className="my-4">

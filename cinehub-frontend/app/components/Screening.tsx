@@ -1,12 +1,14 @@
 "use client";
 
 import { MovieResponse } from "@/app/types/interfaces";
-import { formatDate } from "@/app/utils/functions";
-import { useRouter } from "next/navigation";
+import {formatDate, getMovieDetails} from "@/app/utils/functions";
+import {redirect, useRouter} from "next/navigation";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import useSWR from "swr";
 import {fetcher} from "@/app/utils/fetcher";
+import Link from "next/link";
+import {toast} from "react-hot-toast";
 
 interface Screening {
   screeningId: number;
@@ -19,13 +21,19 @@ interface Screening {
   price: number;
 }
 
+// TODO: generic button?
+
 export default function Screening({ id }: { id: number }) {
   const { data: screeningResponse } = useSWR<Screening[]>(`http://localhost:8080/screenings?movieId=${id}`, fetcher);
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedScreening, setSelectedScreening] = useState<Screening | null>(
     null,
   );
+
+
+
   const router = useRouter();
+
 
   const uniqueDates = screeningResponse
       ? Array.from(
@@ -35,8 +43,6 @@ export default function Screening({ id }: { id: number }) {
                   .map((screening) => screening.startDate.split("T")[0])
           )
       ).sort() : [];
-
-  console.log(uniqueDates);
 
 
   const dateOptions = uniqueDates.map((date) => ({
@@ -171,19 +177,40 @@ export default function Screening({ id }: { id: number }) {
             </div>
           </div>
 
-          <button
-            onClick={handleReservation}
-            disabled={!selectedScreening}
-            className={`flex w-fit my-3 justify-center items-center px-4 py-3 text-md ${
-              selectedScreening
-                ? "bg-orange-500 hover:bg-orange-600"
-                : "bg-neutral-700"
-            } rounded-3xl transition duration-200 ease-in-out`}
-          >
-            <p className="text-zinc-900 font-bold text-md lg:text-lg">
-              Choose seat
-            </p>
-          </button>
+          <div className="flex items-center justify-between">
+
+            <button
+              onClick={handleReservation}
+              disabled={!selectedScreening}
+              className={`flex w-fit my-3 justify-center items-center px-4 py-3 text-md ${
+                selectedScreening
+                  ? "bg-orange-500 hover:bg-orange-600"
+                  : "bg-neutral-700"
+              } rounded-3xl transition duration-200 ease-in-out`}
+            >
+              <p className="text-zinc-900 font-bold text-md lg:text-lg">
+                Choose seat
+              </p>
+            </button>
+            <div className="flex gap-x-4">
+              <Link href={"/addReview?movieId=" + id}>
+                <button className="flex w-fit my-3 justify-center items-center px-4 py-3 text-md bg-orange-500 hover:bg-orange-600 rounded-3xl transition duration-200 ease-in-out">
+                  <p className="text-zinc-900 font-bold text-md lg:text-lg">
+                    Add review
+                  </p>
+                </button>
+              </Link>
+
+
+              <Link href={"/soldTickets?movieId=" + id}>
+                <button className="flex w-fit my-3 justify-center items-center px-4 py-3 text-md bg-orange-500 hover:bg-orange-600 rounded-3xl transition duration-200 ease-in-out">
+                  <p className="text-zinc-900 font-bold text-md lg:text-lg">
+                    Get statistics
+                  </p>
+                </button>
+              </Link>
+            </div>
+          </div>
         </>
       ) : (
         <p className="text-lg text-neutral-500 mt-10">
