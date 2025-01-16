@@ -18,8 +18,8 @@ public class StatisticsController {
 
     @GetMapping("/getMostPopularMoviesEver/{quantity}")
     public List<Movie> getMostPopularMoviesEver(@PathVariable Integer quantity){
-        List<Movie> movies = statisticsService.getMostPopularMoviesList();
         if(quantity == null || quantity<1) quantity = 10;
+        List<Movie> movies = statisticsService.getMostPopularMoviesWithListSize(quantity);
 
         return movies.stream().limit(quantity).toList();
     }
