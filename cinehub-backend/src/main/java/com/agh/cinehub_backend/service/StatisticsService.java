@@ -1,6 +1,7 @@
 package com.agh.cinehub_backend.service;
 
 import com.agh.cinehub_backend.model.Movie;
+import com.agh.cinehub_backend.model.Ticket;
 import com.agh.cinehub_backend.repository.MovieRepository;
 import com.agh.cinehub_backend.repository.TicketRepository;
 import com.agh.cinehub_backend.repository.UserRepository;
@@ -10,6 +11,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,13 +65,16 @@ public class StatisticsService {
     }
 
     public Map<LocalDate, Integer> getSoldTicketsStatistics(Integer movieId) {
-        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findAll().stream()
-                .filter(ticket -> ticket.getScreening().getMovie().getMovieId().equals(movieId))
+        LocalDateTime twoWeeksAgo = LocalDate.now().minusDays(13).atStartOfDay();
+
+        List<Ticket> recentTickets = ticketRepository.findTicketsFromLastTwoWeeks(twoWeeksAgo, movieId);
+
+        Map<LocalDate, Integer> ticketsByDate = recentTickets.stream()
                 .collect(Collectors.groupingBy(
                         ticket -> ticket.getScreening().getStartDate().toLocalDate(),
                         Collectors.summingInt(ticket -> 1)
                 ));
-
+        
         LocalDate today = LocalDate.now();
         return IntStream.rangeClosed(0, 13)
                 .mapToObj(today::minusDays)

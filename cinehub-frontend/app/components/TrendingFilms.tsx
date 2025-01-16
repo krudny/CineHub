@@ -6,7 +6,6 @@ import { getTrendingFilms } from "@/app/utils/functions";
 
 export default async function TrendingFilms() {
   const trending: MovieResponse[] = await getTrendingFilms();
-  console.log(trending);
 
   return (
     <div className="w-full bg-neutral-100">

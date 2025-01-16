@@ -17,9 +17,9 @@ export default function Page() {
 
   const searchParams = useSearchParams();
   const movieId = searchParams.get("movieId");
-  const [isLoading, setIsLoading] = useState(true);
   const [movieDetails, setMovieDetails] = useState<MovieResponse>();
   const [soldTickets, setSoldTickets] = useState<{ date: string; tickets: number }[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // TODO: extract method with addReview to utils
   useEffect(() => {
@@ -36,6 +36,7 @@ export default function Page() {
 
   useEffect(() => {
     if (!movieId) return;
+    setLoading(true);
 
     async function fetchMovieStatistics() {
       try {
@@ -49,6 +50,7 @@ export default function Page() {
         }));
 
         setSoldTickets(formattedData);
+        setLoading(false);
       } catch (err) {
         if (err instanceof Error) {
           toast.error(err.message);
@@ -61,17 +63,10 @@ export default function Page() {
     fetchMovieStatistics();
   }, [movieId]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
+  if(loading) {
     return <Loading />;
   }
+
 
   return (
       <div className="w-screen min-h-screen bg-zinc-900 flex flex-col">
