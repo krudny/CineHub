@@ -10,6 +10,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,7 +31,35 @@ public class StatisticsService {
     }
 
     public List<Movie> getMostPopularMoviesList(){
-        return statisticsStorage.getMostPopularMoviesList();
+        List<Movie> mostPopularMoviesList = statisticsStorage.getMostPopularMoviesList();
+        if(mostPopularMoviesList == null){
+            throw new RuntimeException("Statistics are not calculated yet");
+        }
+        return mostPopularMoviesList;
+    }
+
+    public List<Movie> getMostPopularMoviesWithListSize(int size){
+        List<Movie> movies = new ArrayList<>(getMostPopularMoviesList());
+        if(movies.size()>=size){
+            return movies.stream().limit(size).toList();
+        }
+        List<Integer> moviesIds = movieRepository.getMoviesId();
+
+        int numberOfMoviesToAdd = size-movies.size();
+        List<Integer> indexesMoviesOfStats = movies.stream().map(m -> m.getMovieId()).toList();
+        if(numberOfMoviesToAdd>0 && moviesIds.size() > movies.size() + numberOfMoviesToAdd){
+                for(int movieId: moviesIds){
+                    if(numberOfMoviesToAdd == 0){
+                        break;
+                    }
+                    if(!indexesMoviesOfStats.contains(movieId)){
+                        movies.add(movieRepository.findByMovieId(movieId).get());
+                        numberOfMoviesToAdd--;
+                    }
+                }
+        }
+        return movies;
+
     }
 
     public Map<LocalDate, Integer> getSoldTicketsStatistics(Integer movieId) {
