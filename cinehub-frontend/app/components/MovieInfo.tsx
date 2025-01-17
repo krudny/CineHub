@@ -1,17 +1,13 @@
 import Image from "next/image";
-import { convertToHours, getTrendingFilms } from "@/app/utils/functions";
+import { convertToHours, getMovieDetails } from "@/app/utils/functions";
 import { MovieResponse } from "@/app/types/interfaces";
 import Screening from "@/app/components/Screening";
 
-
-
-export default async function MovieInfo({ id }: { id: string }) {
-  const trending: MovieResponse[] = await getTrendingFilms();
-  const rating = await fetch(`http://localhost:8080/reviews/rating/${id}`).then(res => res.ok ? res.json() : "--")
-  const movie: MovieResponse | undefined = trending.find(
-    (item) => item.movieId === Number(id),
+export default async function MovieInfo({ id }: { id: number }) {
+  const movie: MovieResponse = await getMovieDetails(id);
+  const rating = await fetch(`http://localhost:8080/reviews/rating/${id}`).then(
+    (res) => (res.ok ? res.json() : "--"),
   );
-
 
   if (!movie) {
     throw new Error("No movie found");

@@ -77,4 +77,3 @@ export interface Ticket {
   basePrice: number;
   discountValue: number;
 }
-

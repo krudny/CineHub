@@ -33,10 +33,14 @@ export default function Reservation() {
   useEffect(() => {
     async function fetchSeats() {
       if (reservation?.room.roomId) {
-        const res = await fetch(`http://localhost:8080/room/seats/${reservation.room.roomId}`);
+        const res = await fetch(
+          `http://localhost:8080/room/seats/${reservation.room.roomId}`,
+        );
         const data = await res.json();
 
-        const res1 = await fetch(`http://localhost:8080/screenings/${reservation.screeningId}/takenSeats`);
+        const res1 = await fetch(
+          `http://localhost:8080/screenings/${reservation.screeningId}/takenSeats`,
+        );
         const data1: Seat[] = await res1.json();
 
         setSeats(data);
@@ -79,7 +83,10 @@ export default function Reservation() {
 
     if (res.ok) {
       const data = await res.json();
-      sessionStorage.setItem("reservation", JSON.stringify({ ...reservation, tickets: data }));
+      sessionStorage.setItem(
+        "reservation",
+        JSON.stringify({ ...reservation, tickets: data }),
+      );
       router.push("/reservationConfirmation");
     } else if (res.status === 401) {
       toast.error("You are not logged in!");
@@ -129,7 +136,9 @@ export default function Reservation() {
           onClick={handleSeatsReservation}
           disabled={selectedSeats.length === 0}
           className={`flex w-fit mb-10 justify-center items-center px-4 py-3 text-md ${
-            selectedSeats.length !== 0 ? "bg-orange-500 hover:bg-orange-600" : "bg-neutral-700"
+            selectedSeats.length !== 0
+              ? "bg-orange-500 hover:bg-orange-600"
+              : "bg-neutral-700"
           } rounded-3xl transition duration-200 ease-in-out`}
         >
           <p className="text-zinc-900 font-bold text-md lg:text-lg">Reserve</p>

@@ -1,20 +1,19 @@
-
 export async function getRole() {
-    const res = await fetch(`http://localhost:8080/verifySession`, {
-      credentials: "include",
-    });
-  
-    const text = await res.text();
+  const res = await fetch(`http://localhost:8080/verifySession`, {
+    credentials: "include",
+  });
 
-    if (res.ok) {
-      const role = text.split("_")[1];
-      if (role == "ANONYMOUS") return null;
-      return role;
-    }
+  const text = await res.text();
 
-    return null;
+  if (res.ok) {
+    const role = text.split("_")[1];
+    if (role == "ANONYMOUS") return null;
+    return role;
   }
-  
+
+  return null;
+}
+
 export async function isAuthenticatedAsync(requiredRole: string) {
   const userRole = await getRole();
   return isAuthenticated(requiredRole, userRole);
@@ -35,4 +34,3 @@ export function isAuthenticated(requiredRole: string, userRole: string | null) {
   }
   return false;
 }
-  

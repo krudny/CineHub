@@ -48,10 +48,14 @@ export default function AddReview() {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify({ movieId: movieId, score: rating, description: reviewText }),
+      body: JSON.stringify({
+        movieId: movieId,
+        score: rating,
+        description: reviewText,
+      }),
     });
     const text = await res.text();
-    console.log(res)
+    console.log(res);
     if (!res.ok) {
       toast.error("Cannot add review");
     } else {
@@ -75,7 +79,9 @@ export default function AddReview() {
 
       <div className="container max-w-6xl mx-auto flex justify-center items-center flex-col text-white">
         <div className="mt-10 flex flex-col items-center gap-y-4">
-          <p className="text-5xl font-bold">Add review for movie {movieDetails.title}</p>
+          <p className="text-5xl font-bold">
+            Add review for movie {movieDetails.title}
+          </p>
         </div>
         <form onSubmit={handleSubmit} className="mx-auto p-6">
           <div className="mb-4">

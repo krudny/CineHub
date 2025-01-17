@@ -3,11 +3,10 @@ import Image from "next/image";
 import { MovieResponse } from "@/app/types/interfaces";
 import { convertToHours } from "@/app/utils/functions";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-import useSWR from 'swr';
-import {fetcher} from "@/app/utils/fetcher";
+import useSWR from "swr";
+import { fetcher } from "@/app/utils/fetcher";
 
 export default function Hero(props: MovieResponse) {
-
   const handleScroll = () => {
     window.scrollTo({
       top: window.innerHeight,
@@ -15,7 +14,10 @@ export default function Hero(props: MovieResponse) {
     });
   };
 
-  const { data, error } = useSWR('http://localhost:8080/reviews/rating/' + props.movieId, fetcher);
+  const { data, error } = useSWR(
+    "http://localhost:8080/reviews/rating/" + props.movieId,
+    fetcher,
+  );
 
   return (
     <div className="relative w-full h-screen">
@@ -36,7 +38,9 @@ export default function Hero(props: MovieResponse) {
             </p>
           </div>
           <div className="flex gap-4 my-4 font-oswald">
-            <p className="text-white text-lg lg:text-2xl">Rating: {error ? "--" : data} / 5</p>
+            <p className="text-white text-lg lg:text-2xl">
+              Rating: {error ? "--" : data} / 5
+            </p>
             <p className="text-white text-lg lg:text-2xl">
               Duration: {convertToHours(props.duration)}
             </p>

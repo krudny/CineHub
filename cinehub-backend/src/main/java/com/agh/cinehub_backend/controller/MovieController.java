@@ -34,7 +34,7 @@ public class MovieController {
     }
 
     @GetMapping("/page")
-    public Page<Movie> getPagedMovies(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
+    public Page<Movie> getPagedMovies(@RequestParam(value="page") int page, @RequestParam(value="size", defaultValue = "12") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return movieService.getPagedMovies(pageable);
     }
