@@ -52,8 +52,6 @@ public class MovieRatingsJob implements Job {
                     totalMovieRatings(movieId)
             );
         });
-
-
     }
 
     private void updateRating(int movieId,

@@ -65,12 +65,15 @@ public class StatisticsService {
     }
 
     public Map<LocalDate, Integer> getSoldTicketsStatistics(Integer movieId) {
-        LocalDateTime twoWeeksAgo = LocalDate.now().minusDays(13).atStartOfDay();
+//        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findAll().stream()
+//                .filter(ticket -> ticket.getScreening().getMovie().getMovieId().equals(movieId))
+//                .collect(Collectors.groupingBy(
+//                        ticket -> ticket.getScreening().getStartDate().toLocalDate(),
+//                        Collectors.summingInt(ticket -> 1)
+//                ));
 
-        List<Ticket> recentTickets = ticketRepository.findTicketsFromLastTwoWeeks(twoWeeksAgo, movieId);
-
-        Map<LocalDate, Integer> ticketsByDate = recentTickets.stream()
-                .collect(Collectors.groupingBy(
+        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findTicketsByMovieId(movieId)
+                .stream().collect(Collectors.groupingBy(
                         ticket -> ticket.getScreening().getStartDate().toLocalDate(),
                         Collectors.summingInt(ticket -> 1)
                 ));

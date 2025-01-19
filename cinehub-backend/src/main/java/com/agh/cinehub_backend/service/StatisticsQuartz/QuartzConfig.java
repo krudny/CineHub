@@ -14,6 +14,31 @@ public class QuartzConfig {
                 .storeDurably()
                 .build();
     }
+
+    @Bean
+    public JobDetail dailyTotalTicketCounterJobDetail() {
+        return JobBuilder.newJob(DailyTotalTicketCounterJob.class)
+                .withIdentity("dailyTotalTicketCounterJob")
+                .storeDurably()
+                .build();
+    }
+
+    @Bean
+    public Trigger dailyTotalTicketCounterJobTrigger() {
+        SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
+//                .withIntervalInHours(24)
+                .withIntervalInMinutes(1)
+                .repeatForever();
+
+        return TriggerBuilder.newTrigger()
+                .forJob(dailyTotalTicketCounterJobDetail())
+                .withIdentity("dailyTotalTicketCounterJobDetailTrigger")
+                .withSchedule(scheduleBuilder)
+                .startNow()
+                .build();
+    }
+
+
     @Bean
     public Trigger ratingsCalculatorJobTrigger() {
         SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()
