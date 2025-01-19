@@ -25,13 +25,14 @@ export default function AddReview() {
       setMovieDetails(movie);
     }
     fetchMovieDetails();
-  });
+  }, []);
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (rating === 0) {
       toast.error("Select score");
       return;
@@ -57,7 +58,7 @@ export default function AddReview() {
     const text = await res.text();
     console.log(res);
     if (!res.ok) {
-      toast.error("Cannot add review");
+      toast.error("Cannot add review. " + text);
     } else {
       toast.success(text);
       redirect("/movie/" + movieId);
@@ -76,12 +77,9 @@ export default function AddReview() {
   return (
     <div className="bg-zinc-900 max-w-screen min-h-screen">
       <Navbar />
-
       <div className="container max-w-6xl mx-auto flex justify-center items-center flex-col text-white">
         <div className="mt-10 flex flex-col items-center gap-y-4">
-          <p className="text-5xl font-bold">
-            Add review for movie {movieDetails.title}
-          </p>
+          <p className="text-5xl font-bold">Add review for movie {movieDetails.title}</p>
         </div>
         <form onSubmit={handleSubmit} className="mx-auto p-6">
           <div className="mb-4">
