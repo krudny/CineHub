@@ -4,7 +4,7 @@ import Navbar from "@/app/components/Navbar";
 export default async function MoviePage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: number }>;
 }) {
   const { id } = await params;
 

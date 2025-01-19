@@ -25,7 +25,7 @@ export default function AddReview() {
       setMovieDetails(movie);
     }
     fetchMovieDetails();
-  }, []);
+  });
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);

@@ -5,7 +5,7 @@ import SeatGenerator from "@/app/components/SeatGenerator";
 import { Room, Seat, SeatProps } from "@/app/types/interfaces";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 
 export default function Reservation() {

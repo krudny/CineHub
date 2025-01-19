@@ -4,7 +4,7 @@ import { validationRules } from "@/app/types/validationRules";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast, Toaster } from "react-hot-toast";
+import { toast  } from "react-hot-toast";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 
 type FormValues = {
