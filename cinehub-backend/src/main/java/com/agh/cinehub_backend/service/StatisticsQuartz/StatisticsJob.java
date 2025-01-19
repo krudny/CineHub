@@ -24,10 +24,10 @@ public class StatisticsJob implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext){
-        calculateMostPopularMovies();
+        calculateMostPopularMoviesEver();
     }
 
-    private void calculateMostPopularMovies(){
+    private void calculateMostPopularMoviesEver(){
         Map<Movie, Long> mostPopularMoviesMap = ticketRepository.findAll().stream()
                 .collect(Collectors.groupingBy(t -> t.getScreening().getMovie(), Collectors.counting()));
 
@@ -38,8 +38,9 @@ public class StatisticsJob implements Job {
                 .toList();
 
         List<Movie> sortedMovies = sortedEntries.stream().map(e -> e.getKey()).toList();
-
         statisticsStorage.setMostPopularMoviesList(sortedMovies);
     }
+
+
 
 }

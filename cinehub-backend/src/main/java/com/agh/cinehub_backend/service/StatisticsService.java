@@ -63,9 +63,15 @@ public class StatisticsService {
     }
 
     public Map<LocalDate, Integer> getSoldTicketsStatistics(Integer movieId) {
-        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findAll().stream()
-                .filter(ticket -> ticket.getScreening().getMovie().getMovieId().equals(movieId))
-                .collect(Collectors.groupingBy(
+//        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findAll().stream()
+//                .filter(ticket -> ticket.getScreening().getMovie().getMovieId().equals(movieId))
+//                .collect(Collectors.groupingBy(
+//                        ticket -> ticket.getScreening().getStartDate().toLocalDate(),
+//                        Collectors.summingInt(ticket -> 1)
+//                ));
+
+        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findTicketsByMovieId(movieId)
+                .stream().collect(Collectors.groupingBy(
                         ticket -> ticket.getScreening().getStartDate().toLocalDate(),
                         Collectors.summingInt(ticket -> 1)
                 ));
