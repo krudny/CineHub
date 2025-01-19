@@ -156,4 +156,8 @@ public class MovieService {
     public Page<Movie> getPagedMovies(Pageable pageable) {
         return movieRepository.findAll(pageable);
     }
+
+    public Page<Movie> getPagedMoviesWithSearch(Pageable pageable, String name) {
+        return movieRepository.findByTitleContainingIgnoreCase(name, pageable);
+    }
 }

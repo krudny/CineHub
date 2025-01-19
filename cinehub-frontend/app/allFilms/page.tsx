@@ -1,12 +1,13 @@
 "use client";
 
-import Navbar from "@/app/components/Navbar";
 import FilmsGrid from "@/app/components/FilmsGrid";
+import Navbar from "@/app/components/Navbar";
 import { useEffect, useState } from "react";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [searchBarValue, setSearchBarValue] = useState("");
 
   useEffect(() => {
     const fetchTotalPages = async () => {
@@ -18,17 +19,25 @@ export default function Page() {
   }, []);
 
   const handleNextPage = () => setCurrentPage((prev) => prev + 1);
-  const handlePreviousPage = () =>
-    setCurrentPage((prev) => Math.max(prev - 1, 0));
+  const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
+
+  const handleChange = async (e) => {
+    setSearchBarValue(e.target.value);
+  };
 
   return (
     <div className="bg-zinc-900 max-w-screen min-h-screen text-neutral-100">
       <Navbar />
-      <div className="bg-neutral-100 text-zinc-900 text-center max-w-2xl mx-auto rounded-lg mt-10">
-        TODO searchbar
+      <div className="max-w-2xl mx-auto rounded-lg mt-10">
+        <input
+          className="bg-neutral-100 text-zinc-900 text-center w-full"
+          type="text"
+          onChange={handleChange}
+          value={searchBarValue}
+        />
       </div>
 
-      <FilmsGrid page={currentPage} />
+      <FilmsGrid page={currentPage} search={searchBarValue} setTotalPages={setTotalPages}/>
 
       <div className="flex justify-center items-center gap-4 py-4">
         <button

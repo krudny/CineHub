@@ -1,15 +1,23 @@
 "use client";
 
-import { MovieResponse } from "@/app/types/interfaces";
-import Link from "next/link";
-import Image from "next/image";
-import { toast } from "react-hot-toast";
-import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
+import { MovieResponse } from "@/app/types/interfaces";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 //TODO: refactor with trending movies
 
-export default function FilmsGrid({ page }: { page: number }) {
+export default function FilmsGrid({
+  page,
+  search,
+  setTotalPages,
+}: {
+  page: number;
+  search: string;
+  setTotalPages: (totalPages: number) => void;
+}) {
   const [movies, setMovies] = useState<MovieResponse[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,14 +25,13 @@ export default function FilmsGrid({ page }: { page: number }) {
     setLoading(true);
     const fetchMovies = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/movies/page?page=${page}`,
-        );
+        const response = await fetch(`http://localhost:8080/movies/page?page=${page}&name=${search}`);
         if (!response.ok) {
           throw new Error("Failed to fetch movies");
         }
-        const { content }: { content: MovieResponse[] } = await response.json();
+        const { content, totalPages }: { content: MovieResponse[]; totalPages: number } = await response.json();
         setMovies(content);
+        setTotalPages(totalPages);
         setLoading(false);
       } catch (err) {
         const errorMessage = (err as Error).message;
@@ -32,7 +39,7 @@ export default function FilmsGrid({ page }: { page: number }) {
       }
     };
     fetchMovies();
-  }, [page]);
+  }, [page, search]);
 
   if (loading) {
     return <Loading />;
@@ -58,9 +65,7 @@ export default function FilmsGrid({ page }: { page: number }) {
                   />
                   <div className="absolute inset-0 bg-black opacity-10 hover:opacity-30 transition-opacity"></div>
                 </div>
-                <p className="mt-4 text-center text-lg font-bold truncate">
-                  {movie.title}
-                </p>
+                <p className="mt-4 text-center text-lg font-bold truncate">{movie.title}</p>
               </Link>
             </div>
           ))}
