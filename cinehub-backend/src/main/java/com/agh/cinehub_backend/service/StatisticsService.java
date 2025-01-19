@@ -1,9 +1,12 @@
 package com.agh.cinehub_backend.service;
 
+import com.agh.cinehub_backend.model.DailyTicketsStatistics;
 import com.agh.cinehub_backend.model.Movie;
+import com.agh.cinehub_backend.repository.DailyTicketsStatisticsRepository;
 import com.agh.cinehub_backend.repository.MovieRepository;
 import com.agh.cinehub_backend.repository.TicketRepository;
 import com.agh.cinehub_backend.repository.UserRepository;
+import com.agh.cinehub_backend.service.StatisticsQuartz.DailyTotalTicketCounterJob;
 import com.agh.cinehub_backend.service.StatisticsQuartz.StatisticsStorage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @Data
@@ -24,11 +26,20 @@ public class StatisticsService {
     private final MovieRepository movieRepository;
     private final TicketRepository ticketRepository;
     private final StatisticsStorage statisticsStorage;
+    private final DailyTotalTicketCounterJob dailyTotalTicketCounterJob;
+    private final DailyTicketsStatisticsRepository dailyTicketsStatisticsRepository;
 
 
     public Map<Movie, Long> getMostPopularMoviesMap(){
         return statisticsStorage.getMostPopularMoviesMap();
     }
+
+
+    public void recalculateTotalTicketsSoldFor14Days(){
+        dailyTotalTicketCounterJob.calculateTotalTicketsForLast14Days();
+    }
+
+
 
     public List<Movie> getMostPopularMoviesList(){
         List<Movie> mostPopularMoviesList = statisticsStorage.getMostPopularMoviesList();
@@ -63,26 +74,30 @@ public class StatisticsService {
     }
 
     public Map<LocalDate, Integer> getSoldTicketsStatistics(Integer movieId) {
-//        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findAll().stream()
-//                .filter(ticket -> ticket.getScreening().getMovie().getMovieId().equals(movieId))
-//                .collect(Collectors.groupingBy(
+
+//        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findTicketsByMovieId(movieId)
+//                .stream().collect(Collectors.groupingBy(
 //                        ticket -> ticket.getScreening().getStartDate().toLocalDate(),
 //                        Collectors.summingInt(ticket -> 1)
 //                ));
 
-        Map<LocalDate, Integer> ticketsByDate = ticketRepository.findTicketsByMovieId(movieId)
-                .stream().collect(Collectors.groupingBy(
-                        ticket -> ticket.getScreening().getStartDate().toLocalDate(),
-                        Collectors.summingInt(ticket -> 1)
-                ));
 
         LocalDate today = LocalDate.now();
-        return IntStream.rangeClosed(0, 13)
-                .mapToObj(today::minusDays)
-                .collect(Collectors.toMap(
-                        date -> date,
-                        date -> ticketsByDate.getOrDefault(date, 0)
-                ));
+//        return IntStream.rangeClosed(0, 13)
+//                .mapToObj(today::minusDays)
+//                .collect(Collectors.toMap(
+//                        date -> date,
+//                        date -> ticketsByDate.getOrDefault(date, 0)
+//                ));
+
+        LocalDate startDay = LocalDate.now().minusDays(14).atStartOfDay().toLocalDate();
+        LocalDate endDay = LocalDate.now().atStartOfDay().toLocalDate();
+        Map<LocalDate, Integer> ticketStats = dailyTicketsStatisticsRepository.findByIdMovieIdAndIdDateBetween(movieId, startDay, endDay)
+                .stream().collect(Collectors.toMap(
+                        stat -> stat.getId().getDate(),
+                        stat -> stat.getTotalDailyTickets()));
+
+        return ticketStats;
     }
 
 }

@@ -105,6 +105,10 @@ public class MovieRatingsJob implements Job {
 
         for(Map.Entry<Integer, List<Integer>> entry : this.movieReviewMap.entrySet()){
             List<Integer> medianList = entry.getValue();
+            if (medianList.isEmpty()) {
+                output.put(entry.getKey(), 0.0);
+                continue;
+            }
             Collections.sort(medianList);
 
             int size = medianList.size();
@@ -120,12 +124,17 @@ public class MovieRatingsJob implements Job {
         return output;
     }
 
-    private Map<Integer, Double> getAvgMap(){
+    private Map<Integer, Double> getAvgMap() {
         Map<Integer, Double> output = new HashMap<>();
 
         this.movieReviewMap.entrySet().stream().forEach(e -> {
-            output.put(e.getKey(), e.getValue().stream().mapToDouble(score -> score).average().getAsDouble());
+            double avg = e.getValue().stream()
+                    .mapToDouble(score -> score)
+                    .average()
+                    .orElse(0.0);
+            output.put(e.getKey(), avg);
         });
+
         return output;
     }
 

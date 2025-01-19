@@ -2,7 +2,10 @@ package com.agh.cinehub_backend.model.modelUtils;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -10,6 +13,9 @@ import java.util.Objects;
 
 @Data
 @Embeddable
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DailyTicketsStatisticsId implements Serializable {
 
     @Column(name = "movie_id", nullable = false)
