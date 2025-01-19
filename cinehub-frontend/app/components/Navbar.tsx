@@ -1,7 +1,7 @@
 "use client";
 
 import { logout } from "@/app/utils/functions";
-import { getRole, isAuthenticated, } from "@/app/auth/authFunctions";
+import { getRole, isAuthenticated } from "@/app/auth/authFunctions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -24,7 +24,6 @@ export default function Navbar() {
     fetchUserRole();
   }, [userRole]);
 
-
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-center text-neutral-100 px-16">
       <Link href="/">
@@ -35,6 +34,13 @@ export default function Navbar() {
       </Link>
 
       <div className="flex items-center font-oswald text-md md:text-2xl gap-x-4 sm:gap-x-10">
+        <Link href="/allFilms">
+          <p className="relative group">
+            All films
+            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
+          </p>
+        </Link>
+
         {isAuthenticated("ADMIN", userRole) && (
           <Link href="/admin">
             <p className="relative group">

@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.cglib.core.Local;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -149,5 +151,13 @@ public class MovieService {
                 .doOnNext(this::addMovie)
                 .onErrorContinue((error, item) -> System.err.println("Error adding movie. Details: " + error.getMessage()))
                 .blockLast();
+    }
+
+    public Page<Movie> getPagedMovies(Pageable pageable) {
+        return movieRepository.findAll(pageable);
+    }
+
+    public Page<Movie> getPagedMoviesWithSearch(Pageable pageable, String name) {
+        return movieRepository.findByTitleContainingIgnoreCase(name, pageable);
     }
 }

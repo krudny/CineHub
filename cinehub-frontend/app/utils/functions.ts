@@ -5,7 +5,9 @@ import { toast } from "react-hot-toast";
 export function convertToHours(minutes: number) {
   const hours = Math.floor(minutes / 60);
   const minutes_left = minutes % 60;
-  return hours + ":" + (minutes_left < 10 ? "0" + minutes_left : minutes_left) + "h";
+  return (
+    hours + ":" + (minutes_left < 10 ? "0" + minutes_left : minutes_left) + "h"
+  );
 }
 
 export function formatDate(isoDate: string) {
@@ -19,7 +21,10 @@ export function formatDate(isoDate: string) {
 }
 
 export async function getTrendingFilms(): Promise<MovieResponse[]> {
-  const response: Response = await fetch("http://localhost:8080/statistics/getMostPopularMoviesEver/20", { next: { revalidate: 30 } });
+  const response: Response = await fetch(
+    "http://localhost:8080/statistics/getMostPopularMoviesEver/16",
+    { next: { revalidate: 30 } },
+  );
   // const response: Response = await fetch("http://localhost:8080/movies/trending", { next: { revalidate: 30 } });
   return await response.json();
 }
@@ -38,6 +43,8 @@ export async function logout(router: AppRouterInstance) {
 }
 
 export async function getMovieDetails(movieId: number): Promise<MovieResponse> {
-  const response: Response = await fetch("http://localhost:8080/movies/" + movieId);
+  const response: Response = await fetch(
+    "http://localhost:8080/movies/" + movieId,
+  );
   return await response.json();
 }

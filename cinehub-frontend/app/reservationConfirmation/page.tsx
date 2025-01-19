@@ -21,7 +21,9 @@ export default function Reservation() {
     price: number;
   } | null>(null);
 
-  const [discounts, setDiscounts] = useState<{ discount_id: number; value: number; name: string }[]>([]);
+  const [discounts, setDiscounts] = useState<
+    { discount_id: number; value: number; name: string }[]
+  >([]);
 
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
@@ -80,9 +82,14 @@ export default function Reservation() {
     router.push("/");
   };
 
-  const handleDiscountChange = (index: number, event: ChangeEvent<HTMLSelectElement>) => {
+  const handleDiscountChange = (
+    index: number,
+    event: ChangeEvent<HTMLSelectElement>,
+  ) => {
     const newDiscountName = event.target.value;
-    const newDiscountValue = discounts.filter((discount) => discount.name === event.target.value)[0].value;
+    const newDiscountValue = discounts.filter(
+      (discount) => discount.name === event.target.value,
+    )[0].value;
 
     setTickets((prevTickets) => {
       const updatedTickets = [...prevTickets];
@@ -127,7 +134,11 @@ export default function Reservation() {
             <p className="text-l font-bold mx-4">{reservation.title}</p>
             <p className="text-l mx-4">
               {reservation.fullDate.split("T")[0]}{" "}
-              {reservation.fullDate.split("T")[1].split(":").slice(0, -1).join(":")}
+              {reservation.fullDate
+                .split("T")[1]
+                .split(":")
+                .slice(0, -1)
+                .join(":")}
             </p>
 
             <select
@@ -148,11 +159,21 @@ export default function Reservation() {
               ))}
             </select>
 
-            <span>{Math.round(ticket.basePrice * (1 - ticket.discountValue) * 100) / 100} PLN</span>
+            <span>
+              {Math.round(ticket.basePrice * (1 - ticket.discountValue) * 100) /
+                100}{" "}
+              PLN
+            </span>
           </div>
         ))}
         <div className="flex items-center justify-end w-3/4 border-t-2 mb-8">
-          {tickets.reduce((a, ticket) => a + Math.round(ticket.basePrice * (1 - ticket.discountValue) * 100) / 100, 0)}{" "}
+          {tickets.reduce(
+            (a, ticket) =>
+              a +
+              Math.round(ticket.basePrice * (1 - ticket.discountValue) * 100) /
+                100,
+            0,
+          )}{" "}
           PLN
         </div>
         <div className="flex">

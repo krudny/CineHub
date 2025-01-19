@@ -18,6 +18,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
     List<Ticket> findByScreeningAndSeat(Screening screening, Seat seat);
 
+    @Query("SELECT t FROM Ticket t WHERE t.screening.startDate >= :startDate AND t.screening.movie.movieId = :movieId")
+    List<Ticket> findTicketsFromLastTwoWeeks(@Param("startDate") LocalDateTime startDate, @Param("movieId") Integer movieId);
 
     @Query("SELECT t FROM Ticket t WHERE t.screening.screeningId IN " +
             "(SELECT s.screeningId FROM Screening s WHERE s.movie.movieId = :movieId)")

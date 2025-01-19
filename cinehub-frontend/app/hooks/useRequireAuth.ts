@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { isAuthenticatedAsync } from "../auth/authFunctions";
 
-export function useRequireAuth(router: AppRouterInstance, requiredRole: string = "USER", redirectTo = "/") {
+export function useRequireAuth(
+  router: AppRouterInstance,
+  requiredRole: string = "USER",
+  redirectTo = "/",
+) {
   useEffect(() => {
     async function checkAuthentication() {
       try {

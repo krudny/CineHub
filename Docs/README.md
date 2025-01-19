@@ -4,7 +4,7 @@
 
 <span style="color: red;">TODO</span>
 
-## Autorzy 
+## Autorzy
 
 [Kamil Rudny](https://github.com/krudny) <br>
 karudny@student.agh.edu.pl
@@ -17,6 +17,7 @@ piechnik@student.agh.edu.pl
 ## Technologie
 
 ### Backend
+
 - Java 23
 - Spring Boot
 - Spring Security
@@ -24,14 +25,17 @@ piechnik@student.agh.edu.pl
 - Hibernate
 
 ### Frontend
+
 - Next.js
 - TypeScript
 - Tailwind CSS
-  
+
 ### Baza danych
+
 - PostgreSQL
 
 ### Narzędzia
+
 - IntelliJ IDEA
 - DataGrip
 - WebStorm
