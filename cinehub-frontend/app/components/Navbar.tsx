@@ -1,7 +1,7 @@
 "use client";
 
-import { logout } from "@/app/utils/functions";
 import { getRole, isAuthenticated } from "@/app/auth/authFunctions";
+import { logout } from "@/app/utils/functions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -40,24 +40,6 @@ export default function Navbar() {
             <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
           </p>
         </Link>
-
-        {isAuthenticated("ADMIN", userRole) && (
-          <Link href="/admin">
-            <p className="relative group">
-              Admin menu
-              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-            </p>
-          </Link>
-        )}
-
-        {isAuthenticated("EMPLOYEE", userRole) && (
-          <Link href="/employee">
-            <p className="relative group">
-              Employee menu
-              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-neutral-100 transition-all duration-300 group-hover:w-full"></span>
-            </p>
-          </Link>
-        )}
 
         {isAuthenticated("USER", userRole) && (
           <Link href="/logout" onClick={handleLogout}>

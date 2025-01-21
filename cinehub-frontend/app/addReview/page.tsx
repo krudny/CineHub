@@ -1,6 +1,6 @@
 "use client";
 import { redirect, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Navbar from "../components/Navbar";
 import Loading from "../loading";
@@ -25,13 +25,13 @@ export default function AddReview() {
       setMovieDetails(movie);
     }
     fetchMovieDetails();
-  }, []);
+  }, [movieId]);
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (rating === 0) {
       toast.error("Select score");

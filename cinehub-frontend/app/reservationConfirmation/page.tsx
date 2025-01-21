@@ -4,7 +4,7 @@ import Navbar from "@/app/components/Navbar";
 import { Room, Seat, Ticket } from "@/app/types/interfaces";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import SeatComponent from "../components/Seat";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 

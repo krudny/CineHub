@@ -1,14 +1,13 @@
 "use client";
 
 import { MovieResponse } from "@/app/types/interfaces";
-import { formatDate, getMovieDetails } from "@/app/utils/functions";
-import { redirect, useRouter } from "next/navigation";
+import { formatDate } from "@/app/utils/functions";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import useSWR from "swr";
 import { fetcher } from "@/app/utils/fetcher";
 import Link from "next/link";
-import { toast } from "react-hot-toast";
 
 interface Screening {
   screeningId: number;

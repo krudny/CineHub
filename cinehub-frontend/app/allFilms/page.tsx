@@ -2,7 +2,7 @@
 
 import FilmsGrid from "@/app/components/FilmsGrid";
 import Navbar from "@/app/components/Navbar";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -21,7 +21,7 @@ export default function Page() {
   const handleNextPage = () => setCurrentPage((prev) => prev + 1);
   const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 0));
 
-  const handleChange = async (e) => {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setSearchBarValue(e.target.value);
   };
 
@@ -37,7 +37,7 @@ export default function Page() {
         />
       </div>
 
-      <FilmsGrid page={currentPage} search={searchBarValue} setTotalPages={setTotalPages}/>
+      <FilmsGrid page={currentPage} search={searchBarValue} setTotalPages={setTotalPages} />
 
       <div className="flex justify-center items-center gap-4 py-4">
         <button

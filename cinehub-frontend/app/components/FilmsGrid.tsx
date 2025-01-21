@@ -39,7 +39,7 @@ export default function FilmsGrid({
       }
     };
     fetchMovies();
-  }, [page, search]);
+  }, [page, search, setTotalPages]);
 
   if (loading) {
     return <Loading />;
