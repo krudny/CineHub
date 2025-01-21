@@ -1,6 +1,5 @@
 "use client";
 
-import Loading from "@/app/loading";
 import { MovieResponse } from "@/app/types/interfaces";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,10 +18,8 @@ export default function FilmsGrid({
   setTotalPages: (totalPages: number) => void;
 }) {
   const [movies, setMovies] = useState<MovieResponse[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     const fetchMovies = async () => {
       try {
         const response = await fetch(`http://localhost:8080/movies/page?page=${page}&name=${search}`);
@@ -32,7 +29,6 @@ export default function FilmsGrid({
         const { content, totalPages }: { content: MovieResponse[]; totalPages: number } = await response.json();
         setMovies(content);
         setTotalPages(totalPages);
-        setLoading(false);
       } catch (err) {
         const errorMessage = (err as Error).message;
         toast.error(errorMessage);
@@ -40,10 +36,6 @@ export default function FilmsGrid({
     };
     fetchMovies();
   }, [page, search, setTotalPages]);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <div className="my-12">
