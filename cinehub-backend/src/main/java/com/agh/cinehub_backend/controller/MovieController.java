@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -28,6 +31,15 @@ public class MovieController {
         }
 
         return movieService.getAllMovies();
+    }
+
+    @GetMapping("/page")
+    public Page<Movie> getPagedMovies(@RequestParam(value="page") int page, @RequestParam(value="size", defaultValue = "12") int size, @RequestParam(value="name", required = false) String name) {
+        Pageable pageable = PageRequest.of(page, size);
+        if (name != null) {
+            return movieService.getPagedMoviesWithSearch(pageable, name);
+        }
+        return movieService.getPagedMovies(pageable);
     }
 
     @GetMapping("/{id}")

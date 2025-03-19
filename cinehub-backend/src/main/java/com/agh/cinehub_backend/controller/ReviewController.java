@@ -9,6 +9,7 @@ import com.agh.cinehub_backend.service.ReviewService;
 import com.agh.cinehub_backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +26,7 @@ public class ReviewController {
     private final MovieService movieService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE, USER') or  #movieId != null")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE', 'USER') or  #movieId != null")
     public List<Review> getReviews(@RequestParam(value = "movieId", required = false) Integer movieId) {
         if (movieId != null) {
             Movie movie = movieService.getMovieById(movieId);
@@ -38,7 +39,7 @@ public class ReviewController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE, USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE', 'USER')")
     public ResponseEntity<?> addReview(@Valid @RequestBody ReviewRequest request) {
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUserByEmail(userEmail);
@@ -47,5 +48,11 @@ public class ReviewController {
         reviewService.addReview(user, request);
 
         return ResponseEntity.ok("Review for film " + movie.getTitle() + " added successfully!");
+    }
+
+    @GetMapping("/rating/{movieId}")
+    public ResponseEntity<Double> getRatingForFilm(@PathVariable Integer movieId) {
+        Double result = reviewService.getRatingForFilm(movieId);
+        return ResponseEntity.ok(result);
     }
 }

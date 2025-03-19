@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -23,7 +24,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-neutral-100">{children}</body>
+      <body className="bg-neutral-100">
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 }

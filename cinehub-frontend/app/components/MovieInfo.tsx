@@ -1,22 +1,22 @@
 import Image from "next/image";
-import { convertToHours } from "@/app/utils/functions";
+import { convertToHours, getMovieDetails } from "@/app/utils/functions";
 import { MovieResponse } from "@/app/types/interfaces";
 import Screening from "@/app/components/Screening";
-import {getTrendingFilms} from "@/app/home/page";
 
-
-export default async function MovieInfo({ id }: { id: string}) {
-  const trending: MovieResponse[] = await getTrendingFilms();
-  const movie: MovieResponse | undefined = trending.find((item) => item.movieId === Number(id));
+export default async function MovieInfo({ id }: { id: number }) {
+  const movie: MovieResponse = await getMovieDetails(id);
+  const rating = await fetch(`http://localhost:8080/reviews/rating/${id}`).then(
+    (res) => (res.ok ? res.json() : "--"),
+  );
 
   if (!movie) {
     throw new Error("No movie found");
   }
 
   return (
-    <div className="flex max-w-7xl mx-auto mt-8 select-none ">
-      <div className="w-1/3 h p-8">
-        <div className="h-full relative aspect-[3/4] flex justify-center items-center">
+    <div className="flex max-w-7xl mx-auto mt-8 select-none">
+      <div className="w-1/3 p-8 flex">
+        <div className="h-full relative w-full aspect-[3/4] flex justify-center items-center">
           <Image
             src={movie.thumbnail_img}
             alt="thumbnail"
@@ -29,7 +29,7 @@ export default async function MovieInfo({ id }: { id: string}) {
         </div>
       </div>
 
-      <div className="w-2/3 p-8 flex flex-col justify-between text-neutral-100 ">
+      <div className="w-2/3 p-8 flex flex-col justify-between text-neutral-100">
         <div>
           <h1 className="font-oswald font-bold text-6xl">{movie.title}</h1>
           <div className="flex gap-x-3 my-5 text-lg items-center">
@@ -39,7 +39,7 @@ export default async function MovieInfo({ id }: { id: string}) {
 
           <div className="mt-4 flex gap-x-4">
             <div className="bg-zinc-800 rounded-xl px-4 py-2 w-fit">
-              Rating: TODO
+              Rating: {rating} / 5
             </div>
             <div className="bg-zinc-800 rounded-xl px-4 py-2 w-fit">
               Duration: {convertToHours(movie.duration)}

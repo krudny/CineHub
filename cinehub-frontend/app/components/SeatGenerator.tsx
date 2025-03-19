@@ -42,7 +42,7 @@ export default function SeatGenerator({
             />
           );
         })}
-      </div>
+      </div>,
     );
   }
 
@@ -62,7 +62,7 @@ export default function SeatGenerator({
             />
           );
         })}
-      </div>
+      </div>,
     );
   }
 

@@ -2,10 +2,16 @@
 
 import Navbar from "@/app/components/Navbar";
 import { Room, Seat, Ticket } from "@/app/types/interfaces";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import SeatComponent from "../components/Seat";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 
 export default function Reservation() {
+  const router = useRouter();
+  useRequireAuth(router);
+
   const [reservation, setReservation] = useState<{
     title: string;
     fullDate: string;
@@ -14,9 +20,11 @@ export default function Reservation() {
     selectedSeats: Seat[];
     price: number;
   } | null>(null);
+
   const [discounts, setDiscounts] = useState<
     { discount_id: number; value: number; name: string }[]
   >([]);
+
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
   useEffect(() => {
@@ -45,14 +53,14 @@ export default function Reservation() {
         "Content-Type": "application/json",
       },
     });
-    const data = await res.json();
-    console.log(data);
 
-    if(res.ok){
-      window.alert("Payed for tickets")
-    }else{
-      window.alert("Sign in to continue")
+    if (res.ok) {
+      toast.success("Successfully payed!");
+    } else {
+      toast.error("Error during payment!");
     }
+
+    router.push("/");
   };
 
   const handleCancel = async () => {
@@ -64,23 +72,23 @@ export default function Reservation() {
         "Content-Type": "application/json",
       },
     });
-    const data = await res.json();
-    console.log(data);
-    
-    if(res.ok){
-      window.alert("Canceled tickets")
-    }else{
-      window.alert("Sign in to continue")
+
+    if (res.ok) {
+      toast.success("Successfully cancelled!");
+    } else {
+      toast.error("Error during cancellation!");
     }
+
+    router.push("/");
   };
 
   const handleDiscountChange = (
     index: number,
-    event: ChangeEvent<HTMLSelectElement>
+    event: ChangeEvent<HTMLSelectElement>,
   ) => {
     const newDiscountName = event.target.value;
     const newDiscountValue = discounts.filter(
-      (discount) => discount.name === event.target.value
+      (discount) => discount.name === event.target.value,
     )[0].value;
 
     setTickets((prevTickets) => {
@@ -164,7 +172,7 @@ export default function Reservation() {
               a +
               Math.round(ticket.basePrice * (1 - ticket.discountValue) * 100) /
                 100,
-            0
+            0,
           )}{" "}
           PLN
         </div>
